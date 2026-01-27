@@ -63,9 +63,65 @@ function calculateAge() {
   document.getElementById("ageResult").innerText = "Age: " + age + " Years";
 }
 
-function calculateYouTube() {
-  let v = document.getElementById("ytViews").value;
-  document.getElementById("ytResult").innerText = "Est. Earnings: $" + ((v/1000)*1).toFixed(2);
+// 👇 YAHAN APNI KEY DAALNI HAI 👇
+const apiKey = 'AIzaSyB3e5jwd1Y-5fTWH2w4u62eO-_wVqYDJx0'; 
+
+async function fetchYoutubeData() {
+    const input = document.getElementById('ytInput').value;
+    const loading = document.getElementById('loadingMsg');
+    const viewsInput = document.getElementById('ytViews');
+
+    if (!input) { alert("Link paste karein!"); return; }
+    loading.style.display = 'block';
+
+    try {
+        let apiUrl = '';
+        if (input.includes('watch?v=')) {
+            const videoId = input.split('v=')[1].split('&')[0];
+            apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
+        } else if (input.includes('@')) {
+            const handle = input.split('@')[1].split('/')[0];
+            apiUrl = `https://www.googleapis.com/youtube/v3/channels?part=statistics&forHandle=@${handle}&key=${apiKey}`;
+        } else {
+            alert("Galat Link! Sirf Video Link ya @Handle chalega.");
+            loading.style.display = 'none';
+            return;
+        }
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+            viewsInput.value = data.items[0].statistics.viewCount;
+            calculateYoutube();
+            alert("Data aa gaya! ✅");
+        } else {
+            alert("Data nahi mila. API Key check karein.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Error aaya.");
+    }
+    loading.style.display = 'none';
+}
+
+function calculateYoutube() {
+    const views = document.getElementById('ytViews').value;
+    const rpm = document.getElementById('ytRPM').value;
+    
+    if(views && rpm) {
+        const dollars = (views / 1000) * rpm;
+        const rupees = dollars * 84;
+        
+        document.getElementById('ytResult').innerHTML = `
+            <div style="margin-top: 15px; padding: 10px; background: #e3f2fd; border-radius: 8px;">
+                <strong>Estimated Earning:</strong><br>
+                $${dollars.toFixed(2)} USD<br>
+                <span style="color: green; font-size: 1.2em;">₹${rupees.toFixed(2)} INR</span>
+            </div>
+        `;
+ 
+    }
 }
 
 function calculateInsta() {
