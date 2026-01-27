@@ -65,45 +65,63 @@ function calculateAge() {
 
 // 👇 YAHAN APNI KEY DAALNI HAI 👇
 const apiKey = 'AIzaSyB3e5jwd1Y-5fTWH2w4u62eO-_wVqYDJx0'; 
-
 async function fetchYoutubeData() {
-    const input = document.getElementById('ytInput').value;
+    let input = document.getElementById('ytInput').value;
     const loading = document.getElementById('loadingMsg');
     const viewsInput = document.getElementById('ytViews');
 
     if (!input) { alert("Link paste karein!"); return; }
+    
+    input = input.trim(); 
     loading.style.display = 'block';
 
     try {
         let apiUrl = '';
-        if (input.includes('watch?v=')) {
-            const videoId = input.split('v=')[1].split('&')[0];
+        let videoId = '';
+
+        // 1. Link se ID nikalne ka Naya Tarika (Sabse Zaroori)
+        if (input.includes('youtu.be/')) {
+            videoId = input.split('youtu.be/')[1];
+        } else if (input.includes('v=')) {
+            videoId = input.split('v=')[1];
+        }
+
+        // ID saaf karna (agar ?si= ya &t= laga ho to hatana)
+        if (videoId) {
+            // Ye line ?si= wale error ko theek karegi 👇
+            if (videoId.indexOf('?') !== -1) videoId = videoId.split('?')[0];
+            if (videoId.indexOf('&') !== -1) videoId = videoId.split('&')[0];
+            
             apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${apiKey}`;
-        } else if (input.includes('@')) {
+        } 
+        else if (input.includes('@')) {
             const handle = input.split('@')[1].split('/')[0];
             apiUrl = `https://www.googleapis.com/youtube/v3/channels?part=statistics&forHandle=@${handle}&key=${apiKey}`;
         } else {
-            alert("Galat Link! Sirf Video Link ya @Handle chalega.");
+            alert("Link galat hai! Sirf Video ya Channel link dalein.");
             loading.style.display = 'none';
             return;
         }
 
+        // Data Lana
         const response = await fetch(apiUrl);
         const data = await response.json();
 
         if (data.items && data.items.length > 0) {
             viewsInput.value = data.items[0].statistics.viewCount;
-            calculateYoutube();
-            alert("Data aa gaya! ✅");
+            calculateYoutube(); // Auto calculate
+            alert("Success! Data mil gaya ✅");
         } else {
-            alert("Data nahi mila. API Key check karein.");
+            alert("Data nahi mila. (Link check karein)");
         }
+
     } catch (error) {
         console.error(error);
-        alert("Error aaya.");
+        alert("Error: " + error.message);
     }
     loading.style.display = 'none';
 }
+
 
 function calculateYoutube() {
     const views = document.getElementById('ytViews').value;
