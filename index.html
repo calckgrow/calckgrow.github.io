@@ -2,123 +2,145 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CalcGrow – One Platform. All Smart Calculations.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CalcGrow offers free online smart calculators like percentage, GST, EMI and more. One Platform. All Smart Calculations.">
+  <title>CalcGrow - Smart Calculations</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="header">
-  <h1>CalcGrow</h1>
-  <p class="tagline">One Platform. All Smart Calculations.</p>
-</header>
+  <header>
+    <h1>CalcGrow</h1>
+    <p class="tagline">All Smart Calculators in One Place</p>
+  </header>
 
-<section class="container">
-  <h2>Percentage Calculator</h2>
-
-  <div class="calculator">
-    <input type="number" id="value" placeholder="Enter value">
-    <input type="number" id="percent" placeholder="Enter percentage">
-    <button onclick="calculatePercentage()">Calculate</button>
-
-    <div id="result"></div>
+  <div id="mainMenu" class="menu-grid">
+    <div class="menu-card" onclick="openCalc('percentage')">Percentage Calculator</div>
+    <div class="menu-card" onclick="openCalc('gst')">GST Calculator</div>
+    <div class="menu-card" onclick="openCalc('emi')">EMI Calculator</div>
+    <div class="menu-card" onclick="openCalc('sip')">SIP Calculator</div>
+    <div class="menu-card" onclick="openCalc('age')">Age Calculator</div>
+    <div class="menu-card" onclick="openCalc('youtube')">YouTube Earnings</div>
+    <div class="menu-card" onclick="openCalc('insta')">Instagram Earnings</div>
+    <div class="menu-card" onclick="openCalc('adsense')">Adsense Revenue</div>
+    <div class="menu-card" onclick="openCalc('salary')">Salary Calculator</div>
+    <div class="menu-card" onclick="openCalc('tax')">Income Tax Calculator</div>
   </div>
-</section>
-<section class="container">
-  <h2>GST Calculator</h2>
 
-  <div class="calculator">
-    <input type="number" id="gstPrice" placeholder="Enter price">
-    <input type="number" id="gstPercent" placeholder="Enter GST %">
-    <button onclick="calculateGST()">Calculate</button>
+  <section id="percentage" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>Percentage Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="value" placeholder="Enter value">
+      <input type="number" id="percent" placeholder="Enter percentage">
+      <button onclick="calculatePercentage()">Calculate</button>
+      <div id="result"></div>
+    </div>
+  </section>
 
-    <div id="gstResult"></div>
-  </div>
-</section> 
-  <section class="container">
-  <h2>EMI Calculator</h2>
-  <div class="calculator">
-    <input type="number" id="emiPrincipal" placeholder="Loan Amount">
-    <input type="number" id="emiRate" placeholder="Interest Rate (%)">
-    <input type="number" id="emiMonths" placeholder="Tenure (Months)">
-    <button onclick="calculateEMI()">Calculate EMI</button>
-    <div id="emiResult"></div>
-  </div>
-</section>
+  <section id="gst" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>GST Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="gstPrice" placeholder="Enter price">
+      <input type="number" id="gstPercent" placeholder="Enter GST %">
+      <button onclick="calculateGST()">Calculate</button>
+      <div id="gstResult"></div>
+    </div>
+  </section>
 
-<section class="container">
-  <h2>SIP Calculator</h2>
-  <div class="calculator">
-    <input type="number" id="sipAmount" placeholder="Monthly Investment">
-    <input type="number" id="sipRate" placeholder="Expected Return (%)">
-    <input type="number" id="sipYears" placeholder="Time Period (Years)">
-    <button onclick="calculateSIP()">Calculate SIP</button>
-    <div id="sipResult"></div>
-  </div>
-</section>
+  <section id="emi" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>EMI Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="emiPrincipal" placeholder="Loan Amount">
+      <input type="number" id="emiRate" placeholder="Interest Rate (%)">
+      <input type="number" id="emiMonths" placeholder="Tenure (Months)">
+      <button onclick="calculateEMI()">Calculate EMI</button>
+      <div id="emiResult"></div>
+    </div>
+  </section>
 
-<section class="container">
-  <h2>Age Calculator</h2>
-  <div class="calculator">
-    <label style="display:block; margin-bottom:10px;">Date of Birth:</label>
-    <input type="date" id="dob">
-    <button onclick="calculateAge()">Calculate Age</button>
-    <div id="ageResult"></div>
-  </div>
-</section>
+  <section id="sip" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>SIP Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="sipAmount" placeholder="Monthly Investment">
+      <input type="number" id="sipRate" placeholder="Expected Return (%)">
+      <input type="number" id="sipYears" placeholder="Time Period (Years)">
+      <button onclick="calculateSIP()">Calculate SIP</button>
+      <div id="sipResult"></div>
+    </div>
+  </section>
 
-<section class="container">
-  <h2>YouTube Money Calculator</h2>
-  <div class="calculator">
-    <input type="number" id="ytViews" placeholder="Daily Views">
-    <button onclick="calculateYouTube()">Estimated Earnings</button>
-    <div id="ytResult"></div>
-  </div>
-</section>
+  <section id="age" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>Age Calculator</h2>
+    <div class="calculator">
+      <label style="display:block; margin-bottom:10px;">Date of Birth:</label>
+      <input type="date" id="dob">
+      <button onclick="calculateAge()">Calculate Age</button>
+      <div id="ageResult"></div>
+    </div>
+  </section>
 
-<section class="container">
-  <h2>Instagram Earnings Calculator</h2>
-  <div class="calculator">
-    <input type="number" id="instaFollowers" placeholder="Number of Followers">
-    <button onclick="calculateInsta()">Est. Earnings (Per Post)</button>
-    <div id="instaResult"></div>
-  </div>
-</section>
+  <section id="youtube" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>YouTube Money Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="ytViews" placeholder="Daily Views">
+      <button onclick="calculateYouTube()">Estimated Earnings</button>
+      <div id="ytResult"></div>
+    </div>
+  </section>
 
-<section class="container">
-  <h2>Adsense Revenue Calculator</h2>
-  <div class="calculator">
-    <input type="number" id="adsenseImpressions" placeholder="Page Views">
-    <input type="number" id="adsenseCTR" placeholder="CTR (%)">
-    <input type="number" id="adsenseCPC" placeholder="CPC ($)">
-    <button onclick="calculateAdsense()">Calculate Revenue</button>
-    <div id="adsenseResult"></div>
-  </div>
-</section>
+  <section id="insta" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>Instagram Earnings Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="instaFollowers" placeholder="Number of Followers">
+      <button onclick="calculateInsta()">Est. Earnings (Per Post)</button>
+      <div id="instaResult"></div>
+    </div>
+  </section>
 
-<section class="container">
-  <h2>Salary Calculator</h2>
-  <div class="calculator">
-    <input type="number" id="ctc" placeholder="Annual CTC (Yearly Package)">
-    <button onclick="calculateSalary()">Calculate Monthly In-Hand</button>
-    <div id="salaryResult"></div>
-  </div>
-</section>
+  <section id="adsense" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>Adsense Revenue Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="adsenseImpressions" placeholder="Page Views">
+      <input type="number" id="adsenseCTR" placeholder="CTR (%)">
+      <input type="number" id="adsenseCPC" placeholder="CPC ($)">
+      <button onclick="calculateAdsense()">Calculate Revenue</button>
+      <div id="adsenseResult"></div>
+    </div>
+  </section>
 
-<section class="container">
-  <h2>Income Tax Calculator</h2>
-  <div class="calculator">
-    <input type="number" id="income" placeholder="Annual Income">
-    <button onclick="calculateTax()">Calculate Tax (Est.)</button>
-    <div id="taxResult"></div>
-  </div>
-</section>
+  <section id="salary" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>Salary Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="ctc" placeholder="Annual CTC (Yearly Package)">
+      <button onclick="calculateSalary()">Calculate Monthly In-Hand</button>
+      <div id="salaryResult"></div>
+    </div>
+  </section>
 
-<footer class="footer">
-  <p>© 2026 CalcGrow.com | Free Online Calculators</p>
-</footer>
+  <section id="tax" class="container" style="display:none;">
+    <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
+    <h2>Income Tax Calculator</h2>
+    <div class="calculator">
+      <input type="number" id="income" placeholder="Annual Income">
+      <button onclick="calculateTax()">Calculate Tax (Est.)</button>
+      <div id="taxResult"></div>
+    </div>
+  </section>
 
-<script src="script.js"></script>
-</body>
+  <footer>
+    <p>© 2026 CalcGrow.com | Free Online Calculators</p>
+  </footer>
+
+  <script src="script.js"></script>
+</
+  body>
 </html>
