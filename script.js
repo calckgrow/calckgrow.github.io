@@ -122,7 +122,28 @@ async function fetchYoutubeData() {
     loading.style.display = 'none';
 }
 
+// Slider khiskane par ye function chalega
+function updateSlider(source) {
+    const viewSlider = document.getElementById('viewSlider');
+    const rpmSlider = document.getElementById('rpmSlider');
+    const viewsHidden = document.getElementById('ytViews');
+    const rpmHidden = document.getElementById('ytRPM');
+    
+    // Sliders aur Numbers ko sync karna
+    if(source === 'views') {
+        viewsHidden.value = viewSlider.value;
+        document.getElementById('viewDisplay').innerText = parseInt(viewSlider.value).toLocaleString();
+    }
+    if(source === 'rpm') {
+        rpmHidden.value = rpmSlider.value;
+        document.getElementById('rpmDisplay').innerText = "$" + rpmSlider.value;
+    }
 
+    // Turant Calculate karna
+    calculateYoutube();
+}
+
+// Ye naya calculation logic hai jo screen par numbers dikhayega
 function calculateYoutube() {
     const views = document.getElementById('ytViews').value;
     const rpm = document.getElementById('ytRPM').value;
@@ -131,15 +152,13 @@ function calculateYoutube() {
         const dollars = (views / 1000) * rpm;
         const rupees = dollars * 84;
         
-        document.getElementById('ytResult').innerHTML = `
-            <div style="margin-top: 15px; padding: 10px; background: #e3f2fd; border-radius: 8px;">
-                <strong>Estimated Earning:</strong><br>
-                $${dollars.toFixed(2)} USD<br>
-                <span style="color: green; font-size: 1.2em;">₹${rupees.toFixed(2)} INR</span>
-            </div>
-        `;
- 
+        // Agar naya design mil jaye to wahan update karo
+        if(document.getElementById('dailyDollar')) {
+            document.getElementById('dailyDollar').innerText = dollars.toFixed(2);
+            document.getElementById('dailyRupee').innerText = rupees.toFixed(2);
+        }
     }
+  
 }
 
 function calculateInsta() {
