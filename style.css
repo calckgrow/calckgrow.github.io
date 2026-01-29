@@ -175,3 +175,36 @@ footer {
     .hero h1 { font-size: 2rem; }
     .nav-links { display: none; } /* Mobile menu logic can be added later */
 }
+
+/* --- YOUTUBE PRO TOOLS STYLING --- */
+.yt-tools-container { max-width: 900px; margin: 0 auto; }
+
+/* TABS SYSTEM */
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+.tab-btn { background: white; border: 1px solid var(--border); padding: 12px 25px; border-radius: 50px; cursor: pointer; font-weight: 600; color: var(--text-light); transition: 0.3s; }
+.tab-btn.active { background: #FF0000; color: white; border-color: #FF0000; }
+.tab-content { display: none; animation: fadeIn 0.5s; }
+.tab-content.active { display: block; }
+
+/* CHANNEL PROFILE CARD */
+.channel-header { display: flex; align-items: center; gap: 20px; background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: var(--shadow); border-left: 5px solid #FF0000; }
+.channel-logo { width: 80px; height: 80px; border-radius: 50%; background: #eee; object-fit: cover; }
+.channel-info h2 { margin: 0; font-size: 1.5rem; }
+.channel-stats { color: var(--text-light); font-size: 0.9rem; margin-top: 5px; }
+
+/* DASHBOARD GRID */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+.stat-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border); text-align: center; }
+.stat-card h4 { color: var(--text-light); font-size: 0.9rem; margin-bottom: 10px; }
+.stat-card .money { font-size: 1.5rem; font-weight: 800; color: #2ecc71; }
+
+/* ANALYTICS CHART (CSS ONLY) */
+.chart-container { background: white; padding: 20px; border-radius: 16px; margin-top: 20px; border: 1px solid var(--border); }
+.simple-bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 150px; margin-top: 20px; border-bottom: 1px solid #ccc; }
+.bar { width: 40px; background: #FF0000; opacity: 0.7; border-radius: 5px 5px 0 0; text-align: center; color: white; font-size: 10px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; transition: height 1s; }
+
+/* TRANSCRIPT BOX */
+.transcript-box { background: #f9f9f9; padding: 20px; border-radius: 12px; height: 300px; overflow-y: auto; border: 1px solid var(--border); font-family: monospace; white-space: pre-wrap; margin-top: 20px; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0
+                                                                                                            ); } }
