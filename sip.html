@@ -3,21 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIP Calculator - CalcGrow</title>
+    <title>SIP Calculator - Mutual Fund Returns & Wealth Estimator | CalcGrow</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png" type="image/png">
+    <style>
+        /* Special Chart Styling */
+        .chart-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(#007bff 0% 50%, #e9ecef 50% 100%);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chart-inner {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .legend { display: flex; justify-content: center; gap: 15px; font-size: 0.9rem; margin-top: 10px; }
+        .dot { width: 10px; height: 10px; display: inline-block; border-radius: 50%; margin-right: 5px; }
+    </style>
 </head>
+
 <body>
-    <nav class="navbar"><div class="container"><a href="index.html" class="logo">CalcGrow.</a></div></nav>
-    <div class="container">
-        <div class="calc-wrapper">
-            <h1>SIP Calculator</h1>
-            <div class="input-group"><label>Monthly Investment (₹)</label><input type="number" id="sipAmount"></div>
-            <div class="input-group"><label>Return Rate (%)</label><input type="number" id="sipRate"></div>
-            <div class="input-group"><label>Years</label><input type="number" id="sipYears"></div>
-            <button class="cta-btn" onclick="calculateSIP()" style="width:100%">Calculate Returns</button>
-            <div class="result-box"><div class="result-value" id="sipResult">₹0</div></div>
+
+    <header class="header">
+        <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; color: inherit;">
+                <img src="icon.png" alt="CalcGrow Logo" style="height: 40px; width: auto;">
+                <h2>CalcGrow</h2>
+            </a>
         </div>
-    </div>
-    <script src="script.js"></script>
+    </header>
+
+    <section class="hero">
+        <h1>SIP Return Calculator</h1>
+        <p>See how small monthly investments grow into a massive fortune over time.</p>
+        
+        <div class="calculator-box" style="max-width: 600px; margin: 30px auto; text-align: left;">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label>Monthly Investment (₹)</label>
+                    <input type="number" id="investment" placeholder="e.g. 5000" value="5000">
+                </div>
+                <div>
+                    <label>Exp. Return Rate (%)</label>
+                    <input type="number" id="rate" placeholder="e.g. 12" value="12">
+                </div>
+            </div>
+
+            <label style="margin-top: 15px;">Time Period (Years)</label>
+            <input type="range" id="yearsRange" min="1" max="30" value="10" style="width: 100%;" oninput="document.getElementById('yearsVal').innerText = this.value + ' Years'">
+            <p style="text-align: right; margin-top: -5px; font-weight: bold; color: #007bff;" id="yearsVal">10 Years</p>
+
+            <button onclick="calculateSIP()" class="btn-primary" style="width: 100%; margin-top: 15px;">Calculate Wealth</button>
+
+            <div id="result" style="margin-top: 30px; display: none;">
+                
+                <div class="chart-container" id="chart">
+                    <div class="chart-inner">
+                        <span style="font-size: 0.8rem; color: #666;">Total Value</span>
+                        <strong id="total-display" style="font-size: 1.2rem;">₹0</strong>
+                    </div>
+                </div>
+                <div class="legend">
+                    <span><span class="dot" style="background: #e9ecef;"></span>Invested</span>
+                    <span><span class="dot" style="background: #007bff;"></span>Profit</span>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-top: 20px; border: 1px solid #ddd;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Invested Amount:</span>
+                        <strong id="invested-amt">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #28a745;">
+                        <span>Est. Returns (Profit):</span>
+                        <strong id="profit-amt">₹0</strong>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid #ccc;">
+                    <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-top: 10px;">
+                        <strong>Total Value:</strong>
+                        <strong id="final-amt" style="color: #007bff;">₹0</strong>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="content-rich" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <h2>Power of Compounding</h2>
+        <p>Einstein called compounding the "8th Wonder of the World". In SIP, you earn interest not just on your principal, but also on the interest you've already earned.</p>
+
+        <h3>Quick Rules of Thumb</h3>
+        <ul style="line-height: 1.8;">
+            <li><strong>Rule of 72:</strong> Divide 72 by your interest rate to see how many years it takes to double your money.</li>
+            <li><strong>15-15-15 Rule:</strong> Invest ₹15,000/month for 15 years at 15% return to get ~₹1 Crore.</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 CalcGrow.</p>
+        <nav><a href="index.html">Home</a></nav>
+    </footer>
+
+    <script>
+        function calculateSIP() {
+            const P = parseFloat(document.getElementById('investment').value);
+            const r = parseFloat(document.getElementById('rate').value);
+            const t = parseFloat(document.getElementById('yearsRange').value); // Years
+            const n = 12; // Monthly
+
+            if (!P || !r || !t) { alert("Please fill all fields"); return; }
+
+            // Monthly Rate
+            const i = r / 100 / 12;
+            const months = t * 12;
+
+            // SIP Formula: P × ({[1 + i]^n - 1} / i) × (1 + i)
+            const futureValue = P * ((Math.pow(1 + i, months) - 1) / i) * (1 + i);
+            const investedAmount = P * months;
+            const profit = futureValue - investedAmount;
+
+            // Formatting
+            const fmt = (num) => "₹" + num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+            document.getElementById('invested-amt').innerText = fmt(investedAmount);
+            document.getElementById('profit-amt').innerText = fmt(profit);
+            document.getElementById('final-amt').innerText = fmt(futureValue);
+            document.getElementById('total-display').innerText = fmt(futureValue);
+
+            document.getElementById('result').style.display = 'block';
+
+            // Update Chart (CSS Conic Gradient)
+            const investedPercent = (investedAmount / futureValue) * 100;
+            const profitPercent = 100 - investedPercent;
+            
+            // #e9ecef is Gray (Invested), #007bff is Blue (Profit)
+            document.getElementById('chart').style.background = 
+                `conic-gradient(#e9ecef 0% ${investedPercent}%, #007bff ${investedPercent}% 100%)`;
+        }
+    </scrip
+        t>
 </body>
 </html>
