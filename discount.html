@@ -1,9 +1,110 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Discount Calculator</title><link rel="stylesheet" href="style.css"></head>
-<body><nav class="navbar"><div class="container"><a href="index.html" class="logo">CalcGrow.</a></div></nav>
-<div class="container"><div class="calc-wrapper"><h1>Discount Calculator</h1>
-<div class="input-group"><label>Original Price</label><input type="number" id="price"></div>
-<div class="input-group"><label>Discount %</label><input type="number" id="discPercent"></div>
-<button class="cta-btn" onclick="calculateDiscount()" style="width:100%">Calculate</button>
-<div class="result-box"><div class="result-value" id="discResult">--</div></div></div></div>
-<script src="script.js"></script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Calculator - Shopping & Sales Tool | CalcGrow</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; color: inherit;">
+                <img src="icon.png" alt="CalcGrow Logo" style="height: 40px; width: auto;">
+                <h2>CalcGrow</h2>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Smart Shopping Calculator</h1>
+        <p>Calculate final price after discounts and taxes quickly.</p>
+        
+        <div class="calculator-box" style="max-width: 500px; margin: 30px auto; text-align: left;">
+            
+            <label>Original Price (₹)</label>
+            <input type="number" id="price" placeholder="e.g. 1999">
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div>
+                    <label>Discount (%)</label>
+                    <input type="number" id="discount" placeholder="e.g. 20">
+                </div>
+                <div>
+                    <label>Addt'l Discount (%)</label>
+                    <input type="number" id="extraDisc" placeholder="Optional" title="Extra discount on discounted price">
+                </div>
+            </div>
+
+            <label style="margin-top: 15px;">Tax / GST (%) <small style="color:#888">(Optional)</small></label>
+            <input type="number" id="tax" placeholder="e.g. 18">
+
+            <button onclick="calculateDiscount()" class="btn-primary" style="width: 100%; margin-top: 15px;">Get Best Price</button>
+
+            <div id="result" style="margin-top: 25px; padding: 20px; border: 2px dashed #ccc; background: #fff; display: none; position: relative;">
+                
+                <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">
+                    YOU SAVE <span id="save-amt"></span>
+                </div>
+
+                <div style="text-align: center; margin-top: 10px;">
+                    <span id="old-price" style="text-decoration: line-through; color: #999; font-size: 1.2rem;">₹1999</span>
+                    <h2 id="final-price" style="color: #333; font-size: 2.5rem; margin: 5px 0;">₹1500</h2>
+                    <p style="color: #666; font-size: 0.9rem;">Final Amount to Pay</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="content-rich" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <h2>How Discounts Work?</h2>
+        <p>Did you know? A "50% + 50% Off" sale doesn't mean 100% free. It means 50% off the first price, then 50% off the <i>remaining</i> amount. That's effectively 75% off.</p>
+        
+        <h3>Shopping Tips</h3>
+        <ul style="line-height: 1.6;">
+            <li>Always calculate the <strong>Final Price</strong> before checkout to avoid billing errors.</li>
+            <li>Taxes (GST) are usually applied <i>after</i> the discount is deducted.</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 CalcGrow.</p>
+        <nav><a href="index.html">Home</a></nav>
+    </footer>
+
+    <script>
+        function calculateDiscount() {
+            let price = parseFloat(document.getElementById('price').value);
+            let disc1 = parseFloat(document.getElementById('discount').value) || 0;
+            let disc2 = parseFloat(document.getElementById('extraDisc').value) || 0;
+            let tax = parseFloat(document.getElementById('tax').value) || 0;
+
+            if (!price) { alert("Enter a price!"); return; }
+
+            const originalPrice = price;
+
+            // Step 1: Apply First Discount
+            let discountedPrice = price - (price * (disc1 / 100));
+
+            // Step 2: Apply Additional Discount (on the reduced price)
+            discountedPrice = discountedPrice - (discountedPrice * (disc2 / 100));
+
+            // Step 3: Add Tax
+            let finalPrice = discountedPrice + (discountedPrice * (tax / 100));
+            
+            let totalSavings = originalPrice - discountedPrice; // Savings don't include tax generally, but let's keep it simple
+
+            // Display
+            document.getElementById('old-price').innerText = "₹" + originalPrice.toFixed(2);
+            document.getElementById('final-price').innerText = "₹" + finalPrice.toFixed(2);
+            document.getElementById('save-amt').innerText = "₹" + totalSavings.toFixed(2);
+
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
