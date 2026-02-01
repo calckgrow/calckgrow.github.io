@@ -1,89 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-<!DOCTYPE html>
-<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title> Calcgrow – YouTubeGrow OS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Revenue Intelligence | CalcGrow</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="icon" href="../icon.png" type="image/png">
+
+    <style>
+        /* WORLD CLASS DASHBOARD CSS */
+        :root {
+            --yt-red: #FF0000;
+            --yt-dark: #0f0f0f;
+            --yt-card: #ffffff;
+            --yt-text: #0f0f0f;
+            --yt-gray: #606060;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: var(--yt-text);
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: var(--yt-dark);
+        }
+
+        /* HERO DASHBOARD */
+        .dashboard-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container { grid-template-columns: 1fr; }
+        }
+
+        /* CARDS */
+        .panel-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        h2 { margin-top: 0; font-size: 1.4rem; color: var(--yt-dark); }
+        label { display: block; margin: 15px 0 8px; font-weight: 500; color: var(--yt-gray); font-size: 0.9rem; }
+
+        /* INPUTS */
+        .input-group { position: relative; }
+        
+        .modern-input {
+            width: 100%;
+            padding: 12px 15px;
+            padding-left: 40px; /* Space for icon */
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+        .modern-input:focus { border-color: var(--yt-red); }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--yt-gray);
+        }
+
+        .analyze-btn {
+            background: var(--yt-red);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .analyze-btn:hover { background: #cc0000; box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2); }
+
+        /* CHANNEL PREVIEW */
+        .channel-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            display: none; /* Hidden initially */
+        }
+        .channel-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
+
+        /* SLIDERS */
+        .range-slider {
+            width: 100%;
+            cursor: pointer;
+            accent-color: var(--yt-red);
+            margin-top: 10px;
+        }
+
+        /* RESULTS AREA */
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .result-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .money-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2ba640; /* Money Green */
+            display: block;
+            margin-top: 5px;
+        }
+        .period-label { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+
+        .big-total {
+            background: var(--yt-dark);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .big-total::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine { 0% {top: -50%; left: -50%;} 100% {top: 100%; left: 100%;} }
+
+    </style>
 </head>
+
 <body>
 
-<header class="top">
-  <h1>🚀 Calcgrow</h1>
-  <p>YouTubeGrow OS for Serious Creators</p>
-</header>
+    <header class="header">
+        <a href="../index.html" class="brand">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span style="color: black;">CalcGrow</span> <span style="color: red;">Studio</span>
+        </a>
+        <div style="font-size: 0.9rem; color: #666;">
+            <i class="fa-solid fa-lock"></i> Secure & Private
+        </div>
+    </header>
 
-<!-- MODULE 1: SMART ANALYZER -->
-<section class="card">
-  <h2>🔥 YouTube Smart Analyzer</h2>
-  <input id="ytInput" placeholder="Paste channel / video URL / @handle" />
-  <button onclick="analyzeChannel()">Analyze Channel</button>
+    <div class="dashboard-container">
+        
+        <div class="panel-card">
+            
+            <h2 style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-brands fa-youtube" style="color: red;"></i> Analyze Channel
+            </h2>
+            <div class="input-group">
+                <i class="fa-solid fa-magnifying-glass input-icon"></i>
+                <input type="text" id="channelInput" class="modern-input" placeholder="Enter channel URL or handle (e.g. @MrBeast)">
+            </div>
+            <button onclick="analyzeChannel()" class="analyze-btn">Fetch Data</button>
 
-  <div class="grid">
-    <img id="chLogo" />
-    <div>
-      <h3 id="chName">Channel Name</h3>
-      <p>Subs: <span id="chSubs">--</span></p>
-      <p>Views: <span id="chViews">--</span></p>
-      <p>Videos: <span id="chVideos">--</span></p>
-      <p>Country: <span id="chCountry">--</span></p>
+            <div style="margin: 20px 0; text-align: center; color: #aaa;">— OR ESTIMATE MANUALLY —</div>
+
+            <label>Daily Views: <span id="viewsVal" style="color: red; font-weight: bold;">10,000</span></label>
+            <input type="range" id="viewSlider" class="range-slider" min="1000" max="10000000" step="1000" value="10000" oninput="manualUpdate(this.value)">
+
+            <label>Niche / Category (Affects RPM)</label>
+            <div class="input-group">
+                <i class="fa-solid fa-layer-group input-icon"></i>
+                <select id="nicheSelect" class="modern-input" onchange="reCalculate()">
+                    <option value="0.5">Shorts / Memes ($0.50 RPM)</option>
+                    <option value="1.5">Vlogs / Entertainment ($1.50 RPM)</option>
+                    <option value="3.0" selected>Tech / Education ($3.00 RPM)</option>
+                    <option value="8.0">Finance / Business ($8.00 RPM)</option>
+                    <option value="12.0">Crypto / Insurance ($12.00 RPM)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="panel-card">
+            
+            <div id="channelData" class="channel-preview">
+                <img id="chLogo" src="" class="channel-img">
+                <div>
+                    <h3 id="chName" style="margin: 0;">Channel Name</h3>
+                    <small id="chSubs" style="color: #666;">0 Subscribers</small>
+                </div>
+            </div>
+
+            <h2>Estimated Earnings</h2>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">Based on current RPM and daily traffic.</p>
+
+            <div class="big-total">
+                <div class="period-label" style="color: rgba(255,255,255,0.7);">ESTIMATED MONTHLY INCOME</div>
+                <div id="monthlyRes" style="font-size: 3rem; font-weight: 800;">$900</div>
+            </div>
+
+            <div class="result-grid">
+                <div class="result-box">
+                    <div class="period-label">Daily</div>
+                    <span id="dailyRes" class="money-text">$30</span>
+                </div>
+                <div class="result-box">
+                    <div class="period-label">Yearly Potential</div>
+                    <span id="yearlyRes" class="money-text" style="color: #007bff;">$10.8k</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; font-size: 0.8rem; color: #888; text-align: center;">
+                <i class="fa-solid fa-circle-info"></i> Disclaimer: Earnings vary by country, ad-blockers, and video length.
+            </div>
+
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- MODULE 2: EARNINGS -->
-<section class="card">
-  <h2>💰 Earnings Intelligence</h2>
+    <script src="../assets/js/youtube.js"></script>
 
-  <input id="views" placeholder="Daily Views" />
-  <input id="rpm" placeholder="RPM ($)" />
-  <button onclick="calcEarnings()">Calculate</button>
-
-  <div class="earnings">
-    <p>Daily: $<span id="daily">0</span></p>
-    <p>Monthly: $<span id="monthly">0</span></p>
-    <p>Yearly: $<span id="yearly">0</span></p>
-  </div>
-
-  <small>⚠️ Estimation based on average RPM</small>
-</section>
-
-<!-- MODULE 3: CURRENCY -->
-<section class="card">
-  <h2>🌍 Currency Converter</h2>
-  <button onclick="convertINR()">Convert to INR</button>
-  <p>INR: ₹<span id="inr">0</span></p>
-</section>
-
-<!-- MODULE 4: DAILY TARGET -->
-<section class="card">
-  <h2>🔥 Daily Smart Targets</h2>
-
-  <label><input type="checkbox" class="task" /> Uploaded Video</label>
-  <label><input type="checkbox" class="task" /> Short Posted</label>
-  <label><input type="checkbox" class="task" /> Title Optimized</label>
-  <label><input type="checkbox" class="task" /> Thumbnail Tested</label>
-
-  <div class="progress">
-    Progress: <span id="progress">0%</span>
-  </div>
-</section>
-
-<!-- MODULE 5: TOOLS -->
-<section class="card">
-  <h2>🧰 Premium Tools</h2>
-  <p>✔ Thumbnail Downloader (UI Ready)</p>
-  <p>✔ Transcript Tool (API Phase-2)</p>
-  <p>✔ Hashtag Generator (Phase-2)</p>
-  <p>✔ Title Optimizer (Phase-2)</p>
-</section>
-
-<footer>
-  © 2026 Calcgrow
-</footer>
-
-<script src="js/app.js"></script>
 </body>
 </html>
