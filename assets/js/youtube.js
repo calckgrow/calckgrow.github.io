@@ -3,7 +3,7 @@
 // =============================
 
 // ⚠️ PASTE YOUR SECURE KEY HERE
-const YT_API_KEY = "AIzaSy..."; 
+const YT_API_KEY = "AIzaSyB3e5jwd1Y-5fTWH2w4u62eO-_wVqYDJx0"; 
 
 // Helper: Format Numbers (1,200,000 -> 1.2M)
 function formatNumber(num) {
