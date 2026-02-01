@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discount Calculator - Shopping & Sales Tool | CalcGrow</title>
+    <title>Discount Calculator - International | CalcGrow</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="icon.png" type="image/png">
 </head>
@@ -21,11 +21,19 @@
 
     <section class="hero">
         <h1>Smart Shopping Calculator</h1>
-        <p>Calculate final price after discounts and taxes quickly.</p>
+        <p>Calculate final price after discounts and taxes. Works for all currencies.</p>
         
         <div class="calculator-box" style="max-width: 500px; margin: 30px auto; text-align: left;">
             
-            <label>Original Price (₹)</label>
+            <label>Select Currency</label>
+            <select id="currency" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; background: #fff;">
+                <option value="₹" selected>🇮🇳 INR (₹) - India</option>
+                <option value="$">🇺🇸 USD ($) - USA/Global</option>
+                <option value="€">🇪🇺 EUR (€) - Europe</option>
+                <option value="£">🇬🇧 GBP (£) - UK</option>
+            </select>
+
+            <label>Original Price</label>
             <input type="number" id="price" placeholder="e.g. 1999">
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
@@ -35,11 +43,11 @@
                 </div>
                 <div>
                     <label>Addt'l Discount (%)</label>
-                    <input type="number" id="extraDisc" placeholder="Optional" title="Extra discount on discounted price">
+                    <input type="number" id="extraDisc" placeholder="Optional">
                 </div>
             </div>
 
-            <label style="margin-top: 15px;">Tax / GST (%) <small style="color:#888">(Optional)</small></label>
+            <label style="margin-top: 15px;">Tax / VAT (%) <small style="color:#888">(Optional)</small></label>
             <input type="number" id="tax" placeholder="e.g. 18">
 
             <button onclick="calculateDiscount()" class="btn-primary" style="width: 100%; margin-top: 15px;">Get Best Price</button>
@@ -51,8 +59,8 @@
                 </div>
 
                 <div style="text-align: center; margin-top: 10px;">
-                    <span id="old-price" style="text-decoration: line-through; color: #999; font-size: 1.2rem;">₹1999</span>
-                    <h2 id="final-price" style="color: #333; font-size: 2.5rem; margin: 5px 0;">₹1500</h2>
+                    <span id="old-price" style="text-decoration: line-through; color: #999; font-size: 1.2rem;">1999</span>
+                    <h2 id="final-price" style="color: #333; font-size: 2.5rem; margin: 5px 0;">1500</h2>
                     <p style="color: #666; font-size: 0.9rem;">Final Amount to Pay</p>
                 </div>
             </div>
@@ -61,18 +69,17 @@
     </section>
 
     <section class="content-rich" style="max-width: 800px; margin: 0 auto; padding: 20px;">
-        <h2>How Discounts Work?</h2>
-        <p>Did you know? A "50% + 50% Off" sale doesn't mean 100% free. It means 50% off the first price, then 50% off the <i>remaining</i> amount. That's effectively 75% off.</p>
+        <h2>How to use this tool?</h2>
+        <p>Whether you are shopping in New York ($) or New Delhi (₹), this calculator handles the math for you. Simply select your currency from the top list.</p>
         
-        <h3>Shopping Tips</h3>
+        <h3>Pro Tip: Double Discounts</h3>
         <ul style="line-height: 1.6;">
-            <li>Always calculate the <strong>Final Price</strong> before checkout to avoid billing errors.</li>
-            <li>Taxes (GST) are usually applied <i>after</i> the discount is deducted.</li>
+            <li>Many stores offer "Additional 10% off" on already discounted items. Enter the main discount in the first box and the extra one in the second box to get the exact price.</li>
         </ul>
     </section>
 
     <footer>
-        <p>&copy; 2026 CalcGrow.</p>
+        <p>&copy; 2026 CalcGrow. Global Tool.</p>
         <nav><a href="index.html">Home</a></nav>
     </footer>
 
@@ -82,6 +89,9 @@
             let disc1 = parseFloat(document.getElementById('discount').value) || 0;
             let disc2 = parseFloat(document.getElementById('extraDisc').value) || 0;
             let tax = parseFloat(document.getElementById('tax').value) || 0;
+            
+            // Get Selected Currency Symbol
+            let currency = document.getElementById('currency').value;
 
             if (!price) { alert("Enter a price!"); return; }
 
@@ -90,21 +100,27 @@
             // Step 1: Apply First Discount
             let discountedPrice = price - (price * (disc1 / 100));
 
-            // Step 2: Apply Additional Discount (on the reduced price)
+            // Step 2: Apply Additional Discount
             discountedPrice = discountedPrice - (discountedPrice * (disc2 / 100));
 
             // Step 3: Add Tax
             let finalPrice = discountedPrice + (discountedPrice * (tax / 100));
             
-            let totalSavings = originalPrice - discountedPrice; // Savings don't include tax generally, but let's keep it simple
+            let totalSavings = originalPrice - finalPrice;
+            // Note: If tax makes it more expensive than original (rare in sales but possible), savings might be negative. 
+            // Let's handle simple savings logic: (Original - Discounted before tax) is usually what people call "Savings".
+            // But for "Amount to Pay", we include tax. Let's keep strict math:
+            
+            let displaySavings = originalPrice - discountedPrice; // Savings from discounts only
 
-            // Display
-            document.getElementById('old-price').innerText = "₹" + originalPrice.toFixed(2);
-            document.getElementById('final-price').innerText = "₹" + finalPrice.toFixed(2);
-            document.getElementById('save-amt').innerText = "₹" + totalSavings.toFixed(2);
+            // Display with Dynamic Currency
+            document.getElementById('old-price').innerText = currency + originalPrice.toFixed(2);
+            document.getElementById('final-price').innerText = currency + finalPrice.toFixed(2);
+            document.getElementById('save-amt').innerText = currency + displaySavings.toFixed(2);
 
             document.getElementById('result').style.display = 'block';
         }
-    </script>
+    </scri
+        pt>
 </body>
 </html>
