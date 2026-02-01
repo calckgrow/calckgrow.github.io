@@ -1,8 +1,121 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Age Calculator</title><link rel="stylesheet" href="style.css"></head>
-<body><nav class="navbar"><div class="container"><a href="index.html" class="logo">CalcGrow.</a></div></nav>
-<div class="container"><div class="calc-wrapper"><h1>Age Calculator</h1>
-<div class="input-group"><label>Date of Birth</label><input type="date" id="birthDate"></div>
-<button class="cta-btn" onclick="calculateAge()" style="width:100%">Calculate Age</button>
-<div class="result-box"><div class="result-value" id="ageResult">--</div></div></div></div>
-<script src="script.js"></script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator - Exact Age in Years, Months, Days | CalcGrow</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; color: inherit;">
+                <img src="icon.png" alt="CalcGrow Logo" style="height: 40px; width: auto;">
+                <h2>CalcGrow</h2>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Age Calculator</h1>
+        <p>Calculate your exact age and find out how many days are left until your next birthday.</p>
+        
+        <div class="calculator-box" style="max-width: 500px; margin: 30px auto; text-align: left;">
+            <label>Date of Birth</label>
+            <input type="date" id="dob" style="width: 95%; padding: 10px; margin-bottom: 15px;">
+
+            <label>Today's Date (Auto-filled)</label>
+            <input type="date" id="today" style="width: 95%; padding: 10px;">
+
+            <button onclick="calculateAge()" class="btn-primary" style="width: 100%; margin-top: 15px;">Calculate Age</button>
+
+            <div id="result" style="margin-top: 20px; padding: 15px; background: #f4f6f8; border-radius: 8px; display: none;">
+                <h3 style="margin: 0; color: #333;">You are:</h3>
+                <p id="age-text" style="font-size: 1.2rem; color: #007bff; font-weight: bold; margin-top: 10px;"></p>
+                <p id="next-bday" style="font-size: 0.9rem; color: #555; margin-top: 10px;"></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-rich" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        
+        <h2>Fun Facts About Age</h2>
+        <ul style="line-height: 1.6; color: #555;">
+            <li>In many East Asian cultures, you are considered "1 year old" on the day you are born.</li>
+            <li>The oldest verified person ever lived to be 122 years and 164 days old.</li>
+            <li>Your age on other planets is different! (e.g., A 30-year-old on Earth is only 15 on Mars).</li>
+        </ul>
+
+        <h2 style="margin-top: 40px;">Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <h4 style="margin-bottom: 5px;">How is age calculated legally?</h4>
+            <p style="margin: 0; color: #666;">In most countries, age increases by one year on your birth date. However, in legal terms (like turning 18), the exact time of birth usually doesn't matter, just the date.</p>
+        </div>
+
+    </section>
+
+    <section class="related-tools" style="background: #f9f9f9; padding: 40px 20px; text-align: center; margin-top: 40px;">
+        <h3>Explore More Tools</h3>
+        <div class="card-grid" style="justify-content: center; margin-top: 20px;">
+            <a href="bmi.html" class="card">
+                <h3>BMI Calculator</h3>
+                <p>Check your health status.</p>
+            </a>
+            <a href="tools/yt-earning.html" class="card" style="border: 1px solid red;">
+                <h3>YouTube Earnings</h3>
+                <p>Estimate creator income.</p>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 CalcGrow. All rights reserved.</p>
+        <nav>
+            <a href="index.html">Home</a>
+        </nav>
+    </footer>
+
+    <script>
+        // Set today's date automatically
+        document.getElementById('today').valueAsDate = new Date();
+
+        function calculateAge() {
+            const dobInput = document.getElementById('dob').value;
+            const todayInput = document.getElementById('today').value;
+
+            if (!dobInput) {
+                alert("Please select your Date of Birth");
+                return;
+            }
+
+            const dob = new Date(dobInput);
+            const today = new Date(todayInput);
+
+            let years = today.getFullYear() - dob.getFullYear();
+            let months = today.getMonth() - dob.getMonth();
+            let days = today.getDate() - dob.getDate();
+
+            if (days < 0) {
+                months--;
+                days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const resultBox = document.getElementById('result');
+            const ageText = document.getElementById('age-text');
+            
+            resultBox.style.display = 'block';
+            ageText.innerText = `${years} Years, ${months} Months, ${days} Days`;
+        }
+    </script>
+  
+
+</body>
+</html>
