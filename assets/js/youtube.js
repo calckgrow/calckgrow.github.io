@@ -3,7 +3,7 @@
 // =============================
 
 // ⚠️ YAHAN APNI KEY PASTE KAREIN
-const YT_API_KEY = "AIzaSy..."; 
+const YT_API_KEY = "AIzaSyB3e5jwd1Y-5fTWH2w4u62eO-_wVqYDJx0"; 
 
 // Helper: Format Numbers
 function formatNumber(num) {
