@@ -1,9 +1,251 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Instagram Calculator</title><link rel="stylesheet" href="style.css"></head>
-<body><nav class="navbar"><div class="container"><a href="index.html" class="logo">CalcGrow.</a></div></nav>
-<div class="container"><div class="calc-wrapper"><h1>Instagram Earnings</h1>
-<div class="input-group"><label>Followers</label><input type="number" id="instaFollowers"></div>
-<div class="input-group"><label>Engagement Rate (%)</label><input type="number" id="instaRate" value="2"></div>
-<button class="cta-btn" onclick="calculateInsta()" style="width:100%">Calculate</button>
-<div class="result-box"><div class="result-value" id="instaResult">$0</div></div></div></div>
-<script src="script.js"></script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Earning Calculator - Sponsored Post Estimator | CalcGrow</title>
+    <meta name="description" content="Calculate how much you can earn from Instagram Sponsored Posts and Reels based on your followers and views.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* INSTAGRAM BRANDING THEME */
+        :root {
+            --insta-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            --insta-bg: #fafafa;
+        }
+
+        body { background-color: var(--insta-bg); }
+
+        .insta-hero {
+            background: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .insta-icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: var(--insta-gradient);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(220, 39, 67, 0.3);
+        }
+
+        .insta-icon-box i { font-size: 2.5rem; color: white; }
+
+        /* INPUT CARD DESIGN */
+        .calculator-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            margin: -30px auto 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            position: relative;
+        }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { font-weight: 600; color: #333; font-size: 0.9rem; display: block; margin-bottom: 8px; }
+        
+        .custom-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .custom-input:focus { border-color: #cc2366; outline: none; }
+
+        .btn-insta {
+            background: var(--insta-gradient);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(204, 35, 102, 0.3);
+        }
+        .btn-insta:active { transform: scale(0.98); }
+
+        /* RESULT CARD DESIGN */
+        .earning-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+            border: 1px solid #eee;
+            display: none; /* Hidden by default */
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .earning-range {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--insta-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+        }
+
+        .status-badge {
+            background: #eee; padding: 5px 12px; border-radius: 20px; 
+            font-size: 0.8rem; font-weight: bold; color: #555;
+            display: inline-block; margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header class="header" style="background: white; border-bottom: 1px solid #eee;">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; color: #333; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-arrow-left"></i> 
+                <span style="font-weight: 600;">Back to OS</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="insta-hero">
+        <div class="insta-icon-box">
+            <i class="fa-brands fa-instagram"></i>
+        </div>
+        <h1 style="margin: 0; color: #222;">Instagram Money Calculator</h1>
+        <p style="color: #666; margin-top: 10px;">Estimate earnings per Sponsored Post & Reel based on global market rates.</p>
+    </section>
+
+    <section style="padding: 0 20px 50px;">
+        <div class="calculator-card">
+            
+            <div class="input-group">
+                <label>Select Currency</label>
+                <select id="currency" class="custom-input">
+                    <option value="USD">🇺🇸 USD ($) - Global</option>
+                    <option value="INR">🇮🇳 INR (₹) - India</option>
+                    <option value="EUR">🇪🇺 EUR (€) - Europe</option>
+                    <option value="GBP">🇬🇧 GBP (£) - UK</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Total Followers</label>
+                <input type="number" id="followers" class="custom-input" placeholder="e.g. 50000">
+            </div>
+
+            <div class="input-group">
+                <label>Average Views per Reel/Post</label>
+                <input type="number" id="views" class="custom-input" placeholder="e.g. 25000">
+                <small style="color: #888; display: block; margin-top: 5px;">*Check your insights for average views (Last 10 posts).</small>
+            </div>
+
+            <button onclick="calculateInstaEarnings()" class="btn-insta">Calculate My Worth</button>
+
+            <div id="result" class="earning-card">
+                <div style="text-align: center;">
+                    <span id="influencer-tier" class="status-badge">MICRO INFLUENCER</span>
+                    <p style="margin: 0; color: #666; font-size: 0.9rem;">Estimated Earnings Per Post</p>
+                    
+                    <div class="earning-range">
+                        <span id="min-earn">0</span> - <span id="max-earn">0</span>
+                    </div>
+
+                    <p style="font-size: 0.8rem; color: #888; line-height: 1.5;">
+                        *This estimate is based on typical brand deal rates (CPM $5 - $20). Income varies by niche (Tech/Finance pays more than Comedy).
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 20px; color: #888; font-size: 0.8rem;">
+        <p>&copy; 2026 CalcGrow. Data based on Influencer Marketing Hub standards.</p>
+    </footer>
+
+    <script>
+        function calculateInstaEarnings() {
+            // 1. Get Values
+            let followers = parseFloat(document.getElementById('followers').value);
+            let views = parseFloat(document.getElementById('views').value);
+            let currency = document.getElementById('currency').value;
+
+            // Validation
+            if (!followers || !views) {
+                alert("Please enter both Followers and Average Views!");
+                return;
+            }
+
+            // 2. Determine Influencer Tier (Status Badge)
+            let tier = "ASPIRING CREATOR";
+            if(followers > 10000) tier = "MICRO INFLUENCER";
+            if(followers > 50000) tier = "MID-TIER INFLUENCER";
+            if(followers > 500000) tier = "MACRO INFLUENCER";
+            if(followers > 1000000) tier = "MEGA / CELEBRITY";
+
+            document.getElementById('influencer-tier').innerText = tier;
+
+            // 3. THE MATH (Based on Market CPM Rates)
+            // Logic: Brands pay approx $5 to $10 per 1,000 views for average engagement.
+            // High engagement/niche can go up to $20 per 1,000 views.
+            
+            // Base calculation in USD
+            let lowCPM = 5;  // $5 per 1k views
+            let highCPM = 15; // $15 per 1k views (Optimistic)
+
+            let minUsd = (views / 1000) * lowCPM;
+            let maxUsd = (views / 1000) * highCPM;
+
+            // Correction: If views are very low but followers are high (low engagement),
+            // floor value helps. Brands pay minimum for the "Follower Count" prestige.
+            let baseFollowerPay = (followers / 1000) * 2; // $2 per 1k followers base
+            
+            if (minUsd < baseFollowerPay) {
+                minUsd = baseFollowerPay;
+                maxUsd = baseFollowerPay * 2.5;
+            }
+
+            // 4. Currency Conversion Rates (Approx)
+            let conversionRate = 1;
+            let symbol = "$";
+
+            if (currency === "INR") { conversionRate = 85; symbol = "₹"; }
+            if (currency === "EUR") { conversionRate = 0.92; symbol = "€"; }
+            if (currency === "GBP") { conversionRate = 0.79; symbol = "£"; }
+
+            // Apply Conversion
+            let finalMin = (minUsd * conversionRate).toFixed(0);
+            let finalMax = (maxUsd * conversionRate).toFixed(0);
+
+            // Format Numbers (Add Commas)
+            finalMin = Number(finalMin).toLocaleString();
+            finalMax = Number(finalMax).toLocaleString();
+
+            // 5. Display Result
+            document.getElementById('min-earn').innerText = symbol + finalMin;
+            document.getElementById('max-earn').innerText = symbol + finalMax;
+            
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
