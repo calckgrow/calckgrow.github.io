@@ -10,7 +10,7 @@
     <link rel="icon" href="../icon.png" type="image/png">
 
     <style>
-        /* DASHBOARD CSS (SAME AS BEFORE + NEW TWEAKS) */
+        /* WORLD CLASS DESIGN CSS */
         :root {
             --yt-red: #FF0000;
             --yt-dark: #0f0f0f;
@@ -75,16 +75,16 @@
         h2 { margin-top: 0; font-size: 1.4rem; color: var(--yt-dark); }
         label { display: block; margin: 15px 0 8px; font-weight: 500; color: var(--yt-gray); font-size: 0.9rem; }
 
-        /* INPUTS */
+        /* INPUTS (MOBILE OPTIMIZED - BIGGER) */
         .input-group { position: relative; }
         
         .modern-input {
             width: 100%;
-            padding: 12px 15px;
-            padding-left: 40px; /* Space for icon */
+            padding: 16px 20px; /* Increased padding */
+            padding-left: 50px; /* Space for icon */
             border: 2px solid #eee;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem; /* Bigger Font */
             outline: none;
             transition: 0.3s;
             box-sizing: border-box;
@@ -94,10 +94,11 @@
         
         .input-icon {
             position: absolute;
-            left: 15px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--yt-gray);
+            font-size: 1.2rem;
             z-index: 10;
         }
 
@@ -106,15 +107,34 @@
             color: white;
             border: none;
             width: 100%;
-            padding: 14px;
-            border-radius: 10px;
+            padding: 18px; /* Bigger Touch Target */
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 1rem;
-            margin-top: 15px;
+            font-size: 1.1rem;
+            margin-top: 20px;
             cursor: pointer;
             transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
         }
-        .analyze-btn:hover { background: #cc0000; box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2); }
+        .analyze-btn:active { transform: scale(0.98); }
+
+        /* PROGRESS BAR ANIMATION */
+        .progress-container {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin-top: 20px;
+            height: 8px;
+            overflow: hidden;
+            display: none; /* Hidden initially */
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #ff4d4d);
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
 
         /* CHANNEL PREVIEW */
         .channel-preview {
@@ -124,16 +144,17 @@
             margin-bottom: 20px;
             padding-bottom: 20px;
             border-bottom: 1px solid #eee;
-            display: none; /* Hidden initially */
+            display: none;
         }
-        .channel-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
+        .channel-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; }
 
         /* SLIDERS */
         .range-slider {
             width: 100%;
             cursor: pointer;
             accent-color: var(--yt-red);
-            margin-top: 10px;
+            margin-top: 15px;
+            height: 6px;
         }
 
         /* RESULTS AREA */
@@ -150,9 +171,9 @@
             text-align: center;
         }
         .money-text {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            color: #2ba640; /* Money Green */
+            color: #2ba640;
             display: block;
             margin-top: 5px;
         }
@@ -161,12 +182,10 @@
         .big-total {
             background: var(--yt-dark);
             color: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: 18px;
             text-align: center;
             margin-top: 20px;
-            position: relative;
-            overflow: hidden;
         }
     </style>
 </head>
@@ -179,7 +198,7 @@
             <span style="color: black;">CalcGrow</span> <span style="color: red;">Studio</span>
         </a>
         <div style="font-size: 0.9rem; color: #666;">
-            <i class="fa-solid fa-lock"></i> Secure & Private
+            <i class="fa-solid fa-lock"></i> Secure
         </div>
     </header>
 
@@ -194,9 +213,14 @@
                 <i class="fa-solid fa-magnifying-glass input-icon"></i>
                 <input type="text" id="channelInput" class="modern-input" placeholder="Enter handle (e.g. @MrBeast)">
             </div>
+            
             <button onclick="analyzeChannel()" class="analyze-btn">Fetch Data</button>
 
-            <div style="margin: 20px 0; text-align: center; color: #aaa;">— OR ESTIMATE MANUALLY —</div>
+            <div id="progressBox" class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+            <div style="margin: 30px 0; text-align: center; color: #aaa; font-weight: 500; font-size: 0.9rem;">— OR ESTIMATE MANUALLY —</div>
 
             <label>Select Currency</label>
             <div class="input-group">
@@ -209,10 +233,10 @@
                 </select>
             </div>
 
-            <label>Daily Views: <span id="viewsVal" style="color: red; font-weight: bold;">10,000</span></label>
+            <label style="margin-top: 20px;">Daily Views: <span id="viewsVal" style="color: red; font-weight: bold;">10,000</span></label>
             <input type="range" id="viewSlider" class="range-slider" min="1000" max="10000000" step="1000" value="10000" oninput="manualUpdate(this.value)">
 
-            <label>Niche / Category (Affects RPM)</label>
+            <label style="margin-top: 20px;">Niche / Category</label>
             <div class="input-group">
                 <i class="fa-solid fa-layer-group input-icon"></i>
                 <select id="nicheSelect" class="modern-input" onchange="reCalculate()">
@@ -254,7 +278,7 @@
             </div>
 
             <div style="margin-top: 20px; font-size: 0.8rem; color: #888; text-align: center;">
-                <i class="fa-solid fa-circle-info"></i> Disclaimer: Earnings vary by country, ad-blockers, and video length.
+                <i class="fa-solid fa-circle-info"></i> Disclaimer: Earnings vary by country & ad-blockers.
             </div>
 
         </div>
