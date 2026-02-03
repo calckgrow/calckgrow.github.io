@@ -152,3 +152,28 @@ input:focus, select:focus {
  
     z-index: 10;
 }
+
+/* --- MOBILE & DESKTOP SCREEN FIX --- */
+body {
+    overflow-x: hidden !important; /* Mobile horizontal scroll rokne ke liye */
+}
+
+.container {
+    width: 100% !important;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px !important;
+    box-sizing: border-box;
+}
+
+/* Tool cards mobile par ek ke niche ek dikhne chahiye */
+@media (max-width: 768px) {
+    .tools-container {
+        grid-template-columns: 1fr !important;
+        padding: 10px;
+    }
+    .tool-card {
+        width: 100% !important;
+    }
+    
+}
