@@ -3,419 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CalcGrow Premium | The Creator's Ultimate OS</title>
     
-    <title>CalcGrow - The Ultimate Creator Ecosystem</title>
-    <meta name="description" content="Join 50,000+ Creators using CalcGrow to analyze revenue.">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- GLOBAL THEME --- */
         :root {
-            --primary: #FF0000;
-            --dark-bg: #0f0f0f;
-            --light-bg: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-main: #1a1a1a;
-            --text-light: #666;
-            --glass: rgba(255, 255, 255, 0.95);
-            --border: rgba(0,0,0,0.05);
-            --shadow: 0 15px 40px rgba(0,0,0,0.1);
+            --p-red: #FF0000;
+            --p-gold: #FFD700;
+            --p-dark: #050505;
+            --p-card: #111111;
+            --p-border: rgba(255,255,255,0.08);
+            --p-accent: #007AFF;
+            --p-text-dim: #888888;
         }
 
-        /* DARK MODE VARIABLES */
-        body.dark-mode {
-            --light-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-light: #aaaaaa;
-            --glass: rgba(30, 30, 30, 0.95);
-            --border: rgba(255,255,255,0.1);
-            --shadow: 0 15px 40px rgba(0,0,0,0.5);
+        /* MASTER RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--p-dark); color: #fff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- NAVIGATION --- */
+        header {
+            height: 70px; display: flex; align-items: center;
+            background: rgba(5,5,5,0.8); backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 2000; border-bottom: 1px solid var(--p-border);
+        }
+        .header-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-size: 22px; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center; gap: 8px; }
+        .brand span { color: var(--p-red); }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .crown-btn { 
+            background: linear-gradient(45deg, #FFD700, #FFA500); 
+            color: #000; padding: 8px 16px; border-radius: 10px; 
+            font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(255,215,0,0.3);
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light-bg);
-            margin: 0;
-            padding: 0;
-            color: var(--text-main);
-            transition: background 0.3s, color 0.3s;
-            overflow-x: hidden;
+        /* --- HERO SECTION --- */
+        .hero { padding: 40px 0; position: relative; }
+        .hero-layout { display: grid; grid-template-columns: 1.8fr 1fr; gap: 30px; }
+
+        /* --- STREAK CARD --- */
+        .main-streak-card {
+            background: linear-gradient(160deg, #151515 0%, #0a0a0a 100%);
+            border-radius: 32px; border: 1px solid var(--p-border);
+            padding: 40px; position: relative; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .streak-glow {
+            position: absolute; top: -10%; right: -10%; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(255,0,0,0.1) 0%, transparent 70%);
+        }
+        .streak-info-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .streak-val { font-size: 84px; font-weight: 800; line-height: 1; margin: 15px 0; display: flex; align-items: baseline; gap: 10px;}
+        .streak-val span { font-size: 24px; color: var(--p-text-dim); }
+
+        /* --- PROGRESS LADDER --- */
+        .ladder-section { margin-top: 40px; }
+        .ladder-labels { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .ladder-step { text-align: center; opacity: 0.4; transition: 0.3s; }
+        .ladder-step.active { opacity: 1; }
+        .ladder-step i { font-size: 20px; margin-bottom: 5px; display: block; }
+        .ladder-step span { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+
+        .progress-track { height: 12px; background: #222; border-radius: 10px; overflow: hidden; position: relative; }
+        .progress-fill { 
+            height: 100%; width: 15%; 
+            background: linear-gradient(90deg, #FF0000, #FF4500); 
+            box-shadow: 0 0 20px rgba(255,0,0,0.5); 
         }
 
-        /* --- HEADER --- */
-        .header {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
+        /* --- TARGET CHECKLIST --- */
+        .target-side { display: flex; flex-direction: column; gap: 20px; }
+        .target-card {
+            background: var(--p-card); border-radius: 24px; padding: 25px;
+            border: 1px solid var(--p-border);
         }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
+        .target-title { font-size: 14px; font-weight: 700; color: var(--p-text-dim); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .t-item {
+            display: flex; align-items: center; gap: 15px; padding: 15px;
+            background: rgba(255,255,255,0.03); border-radius: 16px; margin-bottom: 12px;
+            transition: 0.3s; cursor: pointer; border: 1px solid transparent;
         }
+        .t-item:hover { background: rgba(255,255,255,0.06); border-color: #333; }
+        .t-item input { width: 20px; height: 20px; accent-color: #1ED760; }
+        .t-label { font-size: 15px; font-weight: 500; }
 
-        </header>
-
-<div class="container">
-    <div class="streak-container">
-        <div class="streak-info">
-            <span class="streak-flame">🔥</span>
-            <div>
-                <div style="font-size: 12px; color: #888;">Your Consistency</div>
-                <div id="user-streak" style="font-size: 18px; font-weight: bold;">Loading...</div>
-            </div>
-        </div>
-        <button style="background: #333; color: gold; border: 1px solid gold; padding: 5px 15px; border-radius: 20px; font-size: 12px;">
-            GO PREMIUM 👑
-        </button>
-    </div>
-</div>
-        
-
-
-        /* HEADER ACTIONS (Login + Menu) */
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        
-        .login-btn {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
+        /* --- TOOLS GRID --- */
+        .section-title { font-size: 28px; font-weight: 800; margin: 60px 0 30px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .tool-box {
+            background: var(--p-card); border-radius: 30px; padding: 35px;
+            border: 1px solid var(--p-border); position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .login-btn:hover { background: var(--primary); color: white; }
+        .tool-box:hover { transform: scale(1.02); border-color: var(--p-red); background: #161616; }
+        .tool-icon { width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 25px; }
+        .premium-lock { position: absolute; top: 30px; right: 30px; color: var(--p-gold); font-size: 14px; }
 
-        .menu-btn {
-            font-size: 1.5rem;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: 0.3s;
+        /* --- PAYMENT MODAL --- */
+        .modal-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 3000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
         }
-        .menu-btn:hover { color: var(--primary); }
+        .modal-content {
+            background: #111; width: 100%; max-width: 500px; border-radius: 35px;
+            padding: 40px; border: 1px solid #333; position: relative; animation: slideUp 0.4s;
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* --- SIDEBAR MENU (New Feature) --- */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px; /* Hidden initially */
-            width: 280px;
-            height: 100%;
-            background: var(--card-bg);
-            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
-            z-index: 2000;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+        .payment-opt {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0;
         }
-        .sidebar.active { right: 0; }
-        
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 15px;
+        .opt-box {
+            border: 1px solid #222; padding: 20px; border-radius: 18px; text-align: center;
+            cursor: pointer; transition: 0.3s;
         }
-        .close-btn { font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+        .opt-box:hover, .opt-box.selected { border-color: var(--p-gold); background: rgba(255,215,0,0.05); }
+        .opt-box i { font-size: 24px; margin-bottom: 10px; display: block; }
 
-        /* Profile Section in Menu */
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
+        .main-pay-btn {
+            width: 100%; background: #fff; color: #000; padding: 20px; border-radius: 20px;
+            font-size: 18px; font-weight: 800; border: none; cursor: pointer; transition: 0.3s;
         }
-        .avatar {
-            width: 50px; height: 50px;
-            background: #eee;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: #888;
-        }
+        .main-pay-btn:hover { background: var(--p-gold); transform: translateY(-3px); }
 
-        /* Menu Links */
-        .menu-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 0;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid var(--border);
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 900px) {
+            .hero-layout { grid-template-columns: 1fr; }
+            .streak-val { font-size: 64px; }
+            .main-streak-card { padding: 25px; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .header-inner { padding: 0 10px; }
         }
-        .menu-link:hover { color: var(--primary); }
-
-        /* Toggles (Dark Mode / Notif) */
-        .toggle-switch {
-            width: 40px; height: 20px;
-            background: #ccc;
-            border-radius: 20px;
-            position: relative;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .toggle-switch::before {
-            content: '';
-            position: absolute;
-            width: 16px; height: 16px;
-            background: white;
-            border-radius: 50%;
-            top: 2px; left: 2px;
-            transition: 0.3s;
-        }
-        .toggle-active { background: var(--primary); }
-        .toggle-active::before { transform: translateX(20px); }
-
-        /* OVERLAY (Background blur when menu opens) */
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1500;
-            display: none;
-            backdrop-filter: blur(4px);
-        }
-        .overlay.active { display: block; }
-
-        /* --- LOGIN MODAL --- */
-        .login-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--card-bg); padding: 40px;
-            border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            z-index: 3000; width: 90%; max-width: 400px;
-            text-align: center; display: none;
-        }
-        .login-modal.active { display: block; animation: popIn 0.3s ease; }
-        @keyframes popIn { from {opacity: 0; transform: translate(-50%, -40%);} to {opacity: 1; transform: translate(-50%, -50%);} }
-
-        /* --- HERO SECTION (Existing Code) --- */
-        .hero-section {
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-            color: white;
-            padding: 80px 5%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 50px;
-            position: relative; overflow: hidden;
-        }
-        .hero-bg-icon { position: absolute; opacity: 0.1; font-size: 15rem; z-index: 0; animation: floatIcon 10s infinite alternate; }
-        .icon-yt { top: -50px; right: -50px; color: red; }
-        .icon-money { bottom: -50px; left: -50px; color: green; animation-delay: 2s; }
-        @keyframes floatIcon { from {transform: translateY(0) rotate(0deg);} to {transform: translateY(20px) rotate(10deg);} }
-        .hero-content { position: relative; z-index: 1; }
-        .hero-title { font-size: 3.5rem; line-height: 1.1; font-weight: 800; margin-bottom: 20px; background: linear-gradient(to right, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-sub { font-size: 1.2rem; color: #aaa; margin-bottom: 40px; line-height: 1.6; }
-        .cta-btn { background: var(--primary); color: white; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4); }
-        .hero-img { width: 100%; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s; }
-        .hero-img:hover { transform: perspective(1000px) rotateY(0deg); }
-
-        /* Stats & Tools */
-        .stats-strip { background: black; color: white; display: flex; justify-content: space-around; padding: 30px 5%; flex-wrap: wrap; gap: 20px; text-align: center; }
-        .section-title { text-align: center; margin-top: 80px; margin-bottom: 40px; }
-        .tools-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        
-        .tool-card {
-            background: var(--card-bg);
-            border-radius: 20px; padding: 30px; text-decoration: none; color: var(--text-main);
-            transition: all 0.3s ease; border: 1px solid var(--border);
-            display: flex; flex-direction: column; align-items: flex-start;
-        }
-        .tool-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--primary); }
-        .tool-icon { font-size: 2.5rem; margin-bottom: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #f8f9fa; }
-        .yt-card .tool-icon { color: red; background: #fff0f0; }
-        .insta-card .tool-icon { color: #E1306C; background: #fff0f5; }
-        .fb-card .tool-icon { color: #1877F2; background: #eef7ff; }
-        .finance-card .tool-icon { color: #00C853; background: #e8f5e9; }
-
-        @media (max-width: 768px) { .hero-section { grid-template-columns: 1fr; text-align: center; padding-top: 40px; } .hero-img { display: none; } }
     </style>
 </head>
-
 <body>
 
-    <div class="overlay" onclick="closeMenu()"></div>
+    <div class="modal-bg" id="payModal">
+        <div class="modal-content">
+            <div style="text-align: center;">
+                <div style="background: rgba(255,215,0,0.1); color: var(--p-gold); display: inline-block; padding: 6px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 20px;">
+                    PREMIUM ACCESS
+                </div>
+                <h2 style="font-size: 32px; margin-bottom: 10px;">Upgrade to Pro</h2>
+                <p style="color: #666; font-size: 15px;">Maintain streaks, unlock leaderboards, and access international creator insights.</p>
+            </div>
 
-    <header class="header">
-        <a href="index.html" class="logo">
-            <i class="fa-solid fa-calculator" style="color: var(--primary);"></i> CalcGrow
-        </a>
-        
-        <div class="header-actions">
-            <button class="login-btn" onclick="toggleLogin()">Login</button>
-            
-            <i class="fa-solid fa-bars menu-btn" onclick="openMenu()"></i>
+            <div class="payment-opt">
+                <div class="opt-box">
+                    <i class="fa-solid fa-credit-card" style="color: #5bc0de;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Cards</span>
+                </div>
+                <div class="opt-box">
+                    <i class="fa-solid fa-bolt" style="color: #1ED760;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">UPI / Instant</span>
+                </div>
+                <div class="opt-box">
+                    <i class="fa-brands fa-paypal" style="color: #0070ba;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">PayPal</span>
+                </div>
+                <div class="opt-box">
+                    <i class="fa-brands fa-apple-pay" style="color: #fff;"></i>
+                    <span style="font-size: 12px; font-weight: 600;">Apple Pay</span>
+                </div>
+            </div>
+
+            <div style="background: #1a1a1a; padding: 20px; border-radius: 20px; margin-bottom: 25px; border: 1px dashed #333;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span style="color: #888;">Monthly Subscription</span>
+                    <span style="font-weight: 700;">$1.00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 18px; margin-top: 10px; border-top: 1px solid #333; pt: 10px;">
+                    <span style="font-weight: 800;">Total Due</span>
+                    <span style="font-weight: 800; color: var(--p-gold);">$1.00</span>
+                </div>
+            </div>
+
+            <button class="main-pay-btn" onclick="closePay()">ACTIVATE PLAN →</button>
+            <p onclick="closePay()" style="text-align: center; margin-top: 20px; font-size: 13px; color: #444; cursor: pointer;">Cancel Transaction</p>
+        </div>
+    </div>
+
+    <header>
+        <div class="container header-inner">
+            <div class="brand">
+                <div style="width: 35px; height: 35px; background: var(--p-red); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-chart-line" style="color: #fff; font-size: 18px;"></i>
+                </div>
+                CALC<span>GROW</span>
+            </div>
+            <div class="nav-right">
+                <div class="crown-btn" onclick="openPay()">
+                    <i class="fa-solid fa-crown"></i> GO PRO
+                </div>
+                <i class="fa-solid fa-bars" style="font-size: 20px; cursor: pointer;"></i>
+            </div>
         </div>
     </header>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span style="font-weight: 800; font-size: 1.2rem;">Menu</span>
-            <i class="fa-solid fa-xmark close-btn" onclick="closeMenu()"></i>
-        </div>
+    <main class="container">
+        
+        <section class="hero">
+            <div class="hero-layout">
+                <div class="main-streak-card">
+                    <div class="streak-glow"></div>
+                    <div class="streak-info-top">
+                        <div>
+                            <span style="color: var(--p-red); font-weight: 800; font-size: 12px; letter-spacing: 2px;">CREATOR STREAK</span>
+                            <h3 style="font-size: 24px; margin-top: 5px;">You're on Fire!</h3>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 15px; text-align: right;">
+                            <div style="font-size: 10px; color: #666;">WORLD RANK</div>
+                            <div style="font-weight: 800;">#14,502</div>
+                        </div>
+                    </div>
 
-        <div class="user-profile">
-            <div class="avatar"><i class="fa-solid fa-user"></i></div>
-            <div>
-                <div style="font-weight: 600;">Guest User</div>
-                <small style="color: var(--text-light);">Sign in to sync</small>
+                    <div class="streak-val">
+                        12 <i class="fa-solid fa-fire" style="color: #FF4500; font-size: 50px;"></i> <span>DAYS</span>
+                    </div>
+
+                    <p style="color: #888; max-width: 450px;">You are in the top 5% of creators this month. Keep going to unlock the Beginner Badge.</p>
+
+                    <div class="ladder-section">
+                        <div class="ladder-labels">
+                            <div class="ladder-step active">
+                                <i class="fa-solid fa-seedling" style="color: #4CAF50;"></i>
+                                <span>NEWBIE</span>
+                            </div>
+                            <div class="ladder-step active">
+                                <i class="fa-solid fa-award" style="color: var(--p-gold);"></i>
+                                <span>BEGINNER (90D)</span>
+                            </div>
+                            <div class="ladder-step">
+                                <i class="fa-solid fa-rocket" style="color: #007AFF;"></i>
+                                <span>PRO (180D)</span>
+                            </div>
+                            <div class="ladder-step">
+                                <i class="fa-solid fa-crown" style="color: #A333FF;"></i>
+                                <span>ULTRA MAX (365D)</span>
+                            </div>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="target-side">
+                    <div class="target-card">
+                        <div class="target-title">Daily Grind</div>
+                        <div class="t-item">
+                            <input type="checkbox" checked>
+                            <span class="t-label">Content Research</span>
+                        </div>
+                        <div class="t-item">
+                            <input type="checkbox">
+                            <span class="t-label">Recording Session</span>
+                        </div>
+                        <div class="t-item">
+                            <input type="checkbox">
+                            <span class="t-label">SEO & Thumbnail Fix</span>
+                        </div>
+                        <button style="width: 100%; margin-top: 10px; padding: 15px; border-radius: 15px; border: 1px solid #333; background: #222; color: #fff; font-weight: 700; cursor: pointer;" onclick="openPay()">
+                            Complete Tasks
+                        </button>
+                    </div>
+
+                    <div class="target-card" style="background: linear-gradient(135deg, #1a1a1a, #000); border-color: #333;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 12px; font-weight: 700;">PRO ANALYTICS</span>
+                            <i class="fa-solid fa-lock" style="font-size: 12px; color: var(--p-gold);"></i>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <div style="font-size: 10px; color: #555;">PROJECTED REVENUE (MONTHLY)</div>
+                            <div style="font-size: 24px; font-weight: 800; filter: blur(4px);">$4,500.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title">Professional Toolkit</h2>
+        
+        <div class="tools-grid">
+            <a href="tools/yt-earning.html" class="tool-box">
+                <div class="tool-icon" style="background: rgba(255,0,0,0.1); color: var(--p-red);">
+                    <i class="fa-brands fa-youtube"></i>
+                </div>
+                <h3 style="font-size: 22px; margin-bottom: 12px;">YT Revenue Lab</h3>
+                <p style="color: #666; line-height: 1.5;">Advanced calculation engine for AdSense, RPM, and Sponsorship valuations.</p>
+                <div style="margin-top: 25px; font-weight: 800; color: var(--p-red); font-size: 14px;">LAUNCH CALCULATOR <i class="fa-solid fa-arrow-right-long" style="margin-left: 8px;"></i></div>
+            </a>
+
+            <div class="tool-box" onclick="openPay()" style="cursor: pointer;">
+                <i class="fa-solid fa-lock premium-lock"></i>
+                <div class="tool-icon" style="background: rgba(255,215,0,0.1); color: var(--p-gold);">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 style="font-size: 22px; margin-bottom: 12px;">Global Leaderboard</h3>
+                <p style="color: #666; line-height: 1.5;">Compete with creators worldwide. Maintain your 365-day streak to rank #1.</p>
+            </div>
+
+            <div class="tool-box" onclick="openPay()" style="cursor: pointer;">
+                <i class="fa-solid fa-lock premium-lock"></i>
+                <div class="tool-icon" style="background: rgba(0,122,255,0.1); color: var(--p-accent);">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <h3 style="font-size: 22px; margin-bottom: 12px;">Deal Negotiator</h3>
+                <p style="color: #666; line-height: 1.5;">Don't get underpaid. Calculate exactly how much you should charge brands.</p>
             </div>
         </div>
 
-        <div class="menu-link">
-            <span><i class="fa-solid fa-bell" style="margin-right: 10px;"></i> Notifications</span>
-            <div class="toggle-switch" onclick="this.classList.toggle('toggle-active')"></div>
+    </main>
+
+    <footer style="margin-top: 100px; padding: 60px 0; border-top: 1px solid var(--p-border); text-align: center;">
+        <div class="brand" style="justify-content: center; margin-bottom: 20px;">
+            CALC<span>GROW</span>
         </div>
-
-        <div class="menu-link">
-            <span><i class="fa-solid fa-moon" style="margin-right: 10px;"></i> Dark Mode</span>
-            <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
-        </div>
-
-        <a href="#" class="menu-link"><i class="fa-solid fa-gear" style="margin-right: 10px;"></i> Settings</a>
-        <a href="about.html" class="menu-link"><i class="fa-solid fa-circle-info" style="margin-right: 10px;"></i> About Us</a>
-    </div>
-
-    <div class="login-modal" id="loginModal">
-        <i class="fa-brands fa-google" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
-        <h2>Welcome Back</h2>
-        <p style="color: var(--text-light); margin-bottom: 30px;">Sign in to save your analytics history.</p>
-        <button class="cta-btn" style="width: 100%;" onclick="toggleLogin()">Continue with Google</button>
-        <p style="margin-top: 20px; font-size: 0.9rem; color: #999; cursor: pointer;" onclick="toggleLogin()">Close</p>
-    </div>
-
-    <section class="hero-section">
-        <i class="fa-brands fa-youtube hero-bg-icon icon-yt"></i>
-        <i class="fa-solid fa-sack-dollar hero-bg-icon icon-money"></i>
-
-        <div class="hero-content">
-            <div style="background: rgba(255,255,255,0.1); display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2);">
-                🚀 Trusted by 50,000+ Creators
-            </div>
-            <h1 class="hero-title">Dominate Your <br> Digital Empire.</h1>
-            <p class="hero-sub">The all-in-one operating system for Creators. Analyze revenue, track growth, and master your finances.</p>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                <a href="tools/yt-earning.html" class="cta-btn">Start Analyzing</a>
-            </div>
-        </div>
-
-        <div class="hero-visual">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dashboard" class="hero-img">
-        </div>
-    </section>
-
-    <section class="stats-strip">
-        <div class="stat-item"><h3>5M+</h3><p>Channels Analyzed</p></div>
-        <div class="stat-item"><h3>$200M+</h3><p>Revenue Estimated</p></div>
-        <div class="stat-item"><h3>100%</h3><p>Privacy Safe</p></div>
-    </section>
-
-    <div class="section-title">
-        <h2>Your Growth Toolkit</h2>
-        <p style="color: var(--text-light);">Select a tool to begin your journey.</p>
-    </div>
-
-    <div class="tools-container">
-        <a href="tools/yt-earning.html" class="tool-card yt-card">
-            <div class="tool-icon"><i class="fa-brands fa-youtube"></i></div>
-            <h3>YouTube Studio</h3>
-            <p>Advanced revenue estimation & niche analysis.</p>
-        </a>
-
-        <a href="instagram.html" class="tool-card insta-card">
-            <div class="tool-icon"><i class="fa-brands fa-instagram"></i></div>
-            <h3>Instagram Stats</h3>
-            <p>Calculate engagement rates and sponsored earnings.</p>
-        </a>
-
-        <a href="facebook.html" class="tool-card fb-card">
-            <div class="tool-icon"><i class="fa-brands fa-facebook"></i></div>
-            <h3>Facebook Ads</h3>
-            <p>Check monetization eligibility for Reels.</p>
-        </a>
-
-        <a href="finance.html" class="tool-card finance-card">
-            <div class="tool-icon"><i class="fa-solid fa-chart-pie"></i></div>
-            <h3>Finance Hub</h3>
-            <p>Plan your wealth. SIP, EMI & Crypto tools.</p>
-        </a>
-    </div>
-
-    <footer style="background: var(--dark-bg); color: white; padding: 60px 5%; margin-top: 100px; text-align: center;">
-        <p>&copy; 2026 CalcGrow Inc. All rights reserved.</p>
+        <p style="color: #444; font-size: 13px;">Trusted by 500,000+ Creators Worldwide. <br> &copy; 2026 CalcGrow International Inc.</p>
     </footer>
 
     <script>
-        // 1. MENU LOGIC
-        function openMenu() {
-            document.getElementById('sidebar').classList.add('active');
-            document.querySelector('.overlay').classList.add('active');
-        }
-
-        function closeMenu() {
-            document.getElementById('sidebar').classList.remove('active');
-            document.querySelector('.overlay').classList.remove('active');
-        }
-
-        // 2. LOGIN POPUP LOGIC
-        function toggleLogin() {
-            const modal = document.getElementById('loginModal');
-            const overlay = document.querySelector('.overlay');
-            
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none';
-                overlay.classList.remove('active');
-            } else {
-                modal.style.display = 'block';
-                overlay.classList.add('active');
-            }
-        }
-
-        // 3. DARK MODE LOGIC (With Memory)
-        function toggleTheme() {
-            const body = document.body;
-            const toggle = document.getElementById('themeToggle');
-            
-            body.classList.toggle('dark-mode');
-            toggle.classList.toggle('toggle-active');
-
-            // Save preference
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        // Check saved theme on load
-        window.onload = function() {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeToggle').classList.add('toggle-active');
-            }
+        function openPay() { document.getElementById('payModal').style.display = 'flex'; }
+        function closePay() { document.getElementById('payModal').style.display = 'none'; }
+        
+        // Dynamic Streak Update (Simple Demo)
+        window.onload = () => {
+            console.log("CalcGrow Engine Initialized...");
         }
     </script>
-
 </body>
-</html>
+    </html>
