@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CalcGrow - The Ultimate Creator Ecosystem</title>
-    <meta name="description" content="Join 50,000+ Creators using CalcGrow to analyze revenue.">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="icon.png" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* --- GLOBAL THEME --- */
+        /* --- CORE THEME (Puri tarah functional) --- */
         :root {
             --primary: #FF0000;
             --dark-bg: #0f0f0f;
@@ -20,32 +19,31 @@
             --text-main: #1a1a1a;
             --text-light: #666;
             --glass: rgba(255, 255, 255, 0.95);
-            --border: rgba(0,0,0,0.05);
+            --border: rgba(0,0,0,0.08);
             --shadow: 0 15px 40px rgba(0,0,0,0.1);
+            --green: #00C853;
         }
 
-        /* DARK MODE VARIABLES */
         body.dark-mode {
-            --light-bg: #121212;
-            --card-bg: #1e1e1e;
+            --light-bg: #0a0a0a;
+            --card-bg: #141414;
             --text-main: #ffffff;
             --text-light: #aaaaaa;
-            --glass: rgba(30, 30, 30, 0.95);
-            --border: rgba(255,255,255,0.1);
-            --shadow: 0 15px 40px rgba(0,0,0,0.5);
+            --glass: rgba(20, 20, 20, 0.95);
+            --border: rgba(255,255,255,0.05);
+            --shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--light-bg);
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             color: var(--text-main);
-            transition: background 0.3s, color 0.3s;
+            transition: 0.3s;
             overflow-x: hidden;
         }
 
-        /* --- HEADER --- */
+        /* --- UI COMPONENTS --- */
         .header {
             background: var(--glass);
             backdrop-filter: blur(12px);
@@ -53,349 +51,251 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid var(--border);
         }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        /* HEADER ACTIONS (Login + Menu) */
-        .header-actions { display: flex; align-items: center; gap: 20px; }
         
-        .login-btn {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .login-btn:hover { background: var(--primary); color: white; }
+        .logo { font-size: 1.5rem; font-weight: 800; text-decoration: none; color: var(--text-main); }
+        .logo span { color: var(--primary); }
 
-        .menu-btn {
-            font-size: 1.5rem;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .menu-btn:hover { color: var(--primary); }
-
-        /* --- SIDEBAR MENU (New Feature) --- */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px; /* Hidden initially */
-            width: 280px;
-            height: 100%;
-            background: var(--card-bg);
-            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
-            z-index: 2000;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar.active { right: 0; }
-        
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 15px;
-        }
-        .close-btn { font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
-
-        /* Profile Section in Menu */
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .avatar {
-            width: 50px; height: 50px;
-            background: #eee;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: #888;
-        }
-
-        /* Menu Links */
-        .menu-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 0;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid var(--border);
-        }
-        .menu-link:hover { color: var(--primary); }
-
-        /* Toggles (Dark Mode / Notif) */
-        .toggle-switch {
-            width: 40px; height: 20px;
-            background: #ccc;
-            border-radius: 20px;
-            position: relative;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .toggle-switch::before {
-            content: '';
-            position: absolute;
-            width: 16px; height: 16px;
-            background: white;
-            border-radius: 50%;
-            top: 2px; left: 2px;
-            transition: 0.3s;
-        }
-        .toggle-active { background: var(--primary); }
-        .toggle-active::before { transform: translateX(20px); }
-
-        /* OVERLAY (Background blur when menu opens) */
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1500;
-            display: none;
-            backdrop-filter: blur(4px);
-        }
-        .overlay.active { display: block; }
-
-        /* --- LOGIN MODAL --- */
-        .login-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--card-bg); padding: 40px;
-            border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            z-index: 3000; width: 90%; max-width: 400px;
-            text-align: center; display: none;
-        }
-        .login-modal.active { display: block; animation: popIn 0.3s ease; }
-        @keyframes popIn { from {opacity: 0; transform: translate(-50%, -40%);} to {opacity: 1; transform: translate(-50%, -50%);} }
-
-        /* --- HERO SECTION (Existing Code) --- */
+        /* --- HERO SECTION (Point 1: YouTube First) --- */
         .hero-section {
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-            color: white;
             padding: 80px 5%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 50px;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .hero-title { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; }
+        .yt-main-calc {
+            max-width: 700px; margin: 40px auto;
+            background: var(--glass); padding: 40px; border-radius: 30px;
+            box-shadow: var(--shadow); color: var(--text-main);
+        }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 8px; }
+        input[type="number"], input[type="text"] {
+            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--light-bg); color: var(--text-main); font-size: 1rem;
+        }
+
+        /* --- CREATOR JOURNEY (Point 3) --- */
+        .journey-container {
+            max-width: 1200px; margin: 80px auto; padding: 0 20px;
+        }
+        .journey-card {
+            background: var(--card-bg); border-radius: 30px; padding: 50px;
+            border: 1px solid var(--border); box-shadow: var(--shadow);
             position: relative; overflow: hidden;
         }
-        .hero-bg-icon { position: absolute; opacity: 0.1; font-size: 15rem; z-index: 0; animation: floatIcon 10s infinite alternate; }
-        .icon-yt { top: -50px; right: -50px; color: red; }
-        .icon-money { bottom: -50px; left: -50px; color: green; animation-delay: 2s; }
-        @keyframes floatIcon { from {transform: translateY(0) rotate(0deg);} to {transform: translateY(20px) rotate(10deg);} }
-        .hero-content { position: relative; z-index: 1; }
-        .hero-title { font-size: 3.5rem; line-height: 1.1; font-weight: 800; margin-bottom: 20px; background: linear-gradient(to right, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-sub { font-size: 1.2rem; color: #aaa; margin-bottom: 40px; line-height: 1.6; }
-        .cta-btn { background: var(--primary); color: white; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4); }
-        .hero-img { width: 100%; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s; }
-        .hero-img:hover { transform: perspective(1000px) rotateY(0deg); }
-
-        /* Stats & Tools */
-        .stats-strip { background: black; color: white; display: flex; justify-content: space-around; padding: 30px 5%; flex-wrap: wrap; gap: 20px; text-align: center; }
-        .section-title { text-align: center; margin-top: 80px; margin-bottom: 40px; }
-        .tools-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        
-        .tool-card {
-            background: var(--card-bg);
-            border-radius: 20px; padding: 30px; text-decoration: none; color: var(--text-main);
-            transition: all 0.3s ease; border: 1px solid var(--border);
-            display: flex; flex-direction: column; align-items: flex-start;
+        .streak-badge {
+            position: absolute; top: 30px; right: 30px;
+            background: #fff0f0; color: var(--primary);
+            padding: 10px 20px; border-radius: 50px; font-weight: 800;
         }
-        .tool-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--primary); }
-        .tool-icon { font-size: 2.5rem; margin-bottom: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #f8f9fa; }
-        .yt-card .tool-icon { color: red; background: #fff0f0; }
-        .insta-card .tool-icon { color: #E1306C; background: #fff0f5; }
-        .fb-card .tool-icon { color: #1877F2; background: #eef7ff; }
-        .finance-card .tool-icon { color: #00C853; background: #e8f5e9; }
 
-        @media (max-width: 768px) { .hero-section { grid-template-columns: 1fr; text-align: center; padding-top: 40px; } .hero-img { display: none; } }
+        /* --- LEADERBOARD (Point 5) --- */
+        .leaderboard {
+            width: 100%; border-collapse: collapse; margin-top: 30px;
+        }
+        .leaderboard th { text-align: left; padding: 15px; color: var(--text-light); font-size: 0.8rem; }
+        .leaderboard td { padding: 15px; border-bottom: 1px solid var(--border); }
+        .rank { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+
+        /* --- APP GRID (Point 2 & 6) --- */
+        .tools-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin-top: 50px;
+        }
+        .tool-box {
+            background: var(--card-bg); padding: 30px; border-radius: 20px;
+            border: 1px solid var(--border); transition: 0.3s; cursor: pointer;
+        }
+        .tool-box:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .tool-box i { font-size: 2rem; margin-bottom: 15px; }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        .toast {
+            position: fixed; bottom: 20px; left: 20px;
+            background: var(--text-main); color: var(--card-bg);
+            padding: 15px 25px; border-radius: 15px; z-index: 5000;
+            display: none; animation: slideUp 0.5s ease;
+        }
+        @keyframes slideUp { from {bottom: -50px; opacity: 0;} to {bottom: 20px; opacity: 1;} }
+
+        /* --- UTILS --- */
+        .cta-btn { background: var(--primary); color: white; padding: 15px 35px; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; width: 100%; font-size: 1rem; }
+        .sidebar { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: var(--card-bg); z-index: 2000; transition: 0.4s; padding: 25px; box-shadow: var(--shadow); }
+        .sidebar.active { right: 0; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; display: none; }
     </style>
 </head>
-
-<body>
+<body class="light-mode">
 
     <div class="overlay" onclick="closeMenu()"></div>
+    <div id="toast" class="toast"></div>
 
     <header class="header">
-        <a href="index.html" class="logo">
-            <i class="fa-solid fa-calculator" style="color: var(--primary);"></i> CalcGrow
-        </a>
-        
-        <div class="header-actions">
-            <button class="login-btn" onclick="toggleLogin()">Login</button>
-            
-            <i class="fa-solid fa-bars menu-btn" onclick="openMenu()"></i>
+        <a href="#" class="logo">Calc<span>Grow</span></a>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <div style="font-size: 12px; color: var(--green); font-weight: 800;"><i class="fa-solid fa-circle"></i> 5,842 LIVE</div>
+            <i class="fa-solid fa-bars" style="cursor: pointer; font-size: 1.2rem;" onclick="openMenu()"></i>
         </div>
     </header>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span style="font-weight: 800; font-size: 1.2rem;">Menu</span>
-            <i class="fa-solid fa-xmark close-btn" onclick="closeMenu()"></i>
-        </div>
-
-        <div class="user-profile">
-            <div class="avatar"><i class="fa-solid fa-user"></i></div>
-            <div>
-                <div style="font-weight: 600;">Guest User</div>
-                <small style="color: var(--text-light);">Sign in to sync</small>
-            </div>
-        </div>
-
-        <div class="menu-link">
-            <span><i class="fa-solid fa-bell" style="margin-right: 10px;"></i> Notifications</span>
-            <div class="toggle-switch" onclick="this.classList.toggle('toggle-active')"></div>
-        </div>
-
-        <div class="menu-link">
-            <span><i class="fa-solid fa-moon" style="margin-right: 10px;"></i> Dark Mode</span>
-            <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
-        </div>
-
-        <a href="#" class="menu-link"><i class="fa-solid fa-gear" style="margin-right: 10px;"></i> Settings</a>
-        <a href="about.html" class="menu-link"><i class="fa-solid fa-circle-info" style="margin-right: 10px;"></i> About Us</a>
-    </div>
-
-    <div class="login-modal" id="loginModal">
-        <i class="fa-brands fa-google" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
-        <h2>Welcome Back</h2>
-        <p style="color: var(--text-light); margin-bottom: 30px;">Sign in to save your analytics history.</p>
-        <button class="cta-btn" style="width: 100%;" onclick="toggleLogin()">Continue with Google</button>
-        <p style="margin-top: 20px; font-size: 0.9rem; color: #999; cursor: pointer;" onclick="toggleLogin()">Close</p>
-    </div>
-
     <section class="hero-section">
-        <i class="fa-brands fa-youtube hero-bg-icon icon-yt"></i>
-        <i class="fa-solid fa-sack-dollar hero-bg-icon icon-money"></i>
-
-        <div class="hero-content">
-            <div style="background: rgba(255,255,255,0.1); display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2);">
-                🚀 Trusted by 50,000+ Creators
+        <h1 class="hero-title">YouTube Revenue OS</h1>
+        <p style="opacity: 0.7; margin-bottom: 30px;">Professional Grade Analytics for the Modern Creator</p>
+        
+        <div class="yt-main-calc">
+            <div class="input-group">
+                <label>Monthly Views</label>
+                <input type="number" id="yt-views" placeholder="e.g. 500,000">
             </div>
-            <h1 class="hero-title">Dominate Your <br> Digital Empire.</h1>
-            <p class="hero-sub">The all-in-one operating system for Creators. Analyze revenue, track growth, and master your finances.</p>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                <a href="tools/yt-earning.html" class="cta-btn">Start Analyzing</a>
+            <div class="input-group">
+                <label>Niche / Category</label>
+                <select id="yt-niche" style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--light-bg);">
+                    <option value="2.5">Tech ($2.50 RPM)</option>
+                    <option value="1.5">Vlog ($1.50 RPM)</option>
+                    <option value="4.0">Finance ($4.00 RPM)</option>
+                    <option value="0.8">Gaming ($0.80 RPM)</option>
+                </select>
             </div>
-        </div>
-
-        <div class="hero-visual">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dashboard" class="hero-img">
+            <button class="cta-btn" onclick="calcYTRov()">Analyze Earnings</button>
+            <div id="yt-res" style="margin-top: 25px; font-size: 2rem; font-weight: 800; color: var(--primary);"></div>
         </div>
     </section>
 
-    <section class="stats-strip">
-        <div class="stat-item"><h3>5M+</h3><p>Channels Analyzed</p></div>
-        <div class="stat-item"><h3>$200M+</h3><p>Revenue Estimated</p></div>
-        <div class="stat-item"><h3>100%</h3><p>Privacy Safe</p></div>
+    <div class="journey-container">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2>Multi-Platform Suite</h2>
+            <p style="color: var(--text-light);">Track everything from one dashboard.</p>
+        </div>
+        <div class="tools-grid">
+            <div class="tool-box"><i class="fa-brands fa-instagram" style="color: #E1306C;"></i> <h3>Instagram</h3><p>Engagement & Rates</p></div>
+            <div class="tool-box"><i class="fa-brands fa-facebook" style="color: #1877F2;"></i> <h3>Facebook</h3><p>Reels Monetization</p></div>
+            <div class="tool-box"><i class="fa-brands fa-snapchat" style="color: #FFFC00;"></i> <h3>Snapchat</h3><p>Spotlight Rewards</p></div>
+            <div class="tool-box"><i class="fa-brands fa-tiktok"></i> <h3>TikTok</h3><p>Creator Fund Calc</p></div>
+        </div>
+    </div>
+
+    <section class="journey-container">
+        <div class="journey-card" id="journey-init">
+            <div class="streak-badge">NEW MISSION</div>
+            <h2>Start Your Creator Journey</h2>
+            <p style="color: var(--text-light); margin-bottom: 30px;">Tell us your goal, and we'll give you daily targets to keep you consistent.</p>
+            
+            <div class="input-group">
+                <label>What is your goal?</label>
+                <input type="text" id="user-goal" placeholder="e.g. Reach 100k Subs or Post 30 Reels">
+            </div>
+            <button class="cta-btn" onclick="startJourney()">Join 365-Day Challenge</button>
+        </div>
+
+        <div class="journey-card" id="journey-dash" style="display: none;">
+            <div class="streak-badge" id="streak-val">STREAK: 1 DAY</div>
+            <h2 id="display-goal">My Goal</h2>
+            <p style="color: var(--text-light);">Daily Progress Tracker</p>
+            
+            <div style="margin: 30px 0; border-top: 1px solid var(--border); padding-top: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <input type="checkbox" style="width: 20px; height: 20px;"> <span>Upload Today's Content</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <input type="checkbox" style="width: 20px; height: 20px;"> <span>Reply to 10 Comments</span>
+                </div>
+                
+                <div style="margin-top: 30px; background: var(--light-bg); padding: 20px; border-radius: 15px; text-align: center;">
+                    <p style="font-size: 0.8rem; font-weight: 600;">LOG YOUR DAILY PIC (STREAK)</p>
+                    <input type="file" id="streak-file" style="margin-top: 10px;">
+                </div>
+                <button class="cta-btn" style="margin-top: 20px;" onclick="saveProgress()">Complete Day 1</button>
+            </div>
+        </div>
     </section>
 
-    <div class="section-title">
-        <h2>Your Growth Toolkit</h2>
-        <p style="color: var(--text-light);">Select a tool to begin your journey.</p>
+    <section class="journey-container">
+        <div class="section-title">
+            <h2>Global Consistency Leaderboard</h2>
+            <p style="color: var(--text-light);">Creators who never miss a day.</p>
+        </div>
+        <div class="tool-box" style="padding: 0;">
+            <table class="leaderboard">
+                <thead>
+                    <tr><th>RANK</th><th>CREATOR</th><th>STREAK</th><th>GOAL</th></tr>
+                </thead>
+                <tbody id="leader-body">
+                    <tr><td><div class="rank">1</div></td><td><b>Arjun Vlogs</b></td><td><span style="color:var(--primary)">214 Days</span></td><td>1M Subs</td></tr>
+                    <tr><td><div class="rank" style="background: #555;">2</div></td><td><b>Sara Tech</b></td><td><span style="color:var(--primary)">189 Days</span></td><td>Consistency</td></tr>
+                    <tr><td><div class="rank" style="background: #888;">3</div></td><td><b>You</b></td><td><span style="color:var(--primary)">1 Day</span></td><td>Join now</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="sidebar" id="sidebar">
+        <h3>Settings</h3>
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <span>Dark Mode</span>
+            <input type="checkbox" onchange="toggleTheme()">
+        </div>
+        <a href="#" style="display: block; padding: 10px 0; color: var(--text-main); text-decoration: none;">About Us</a>
+        <a href="#" style="display: block; padding: 10px 0; color: var(--text-main); text-decoration: none;">Privacy Policy</a>
+        <a href="#" style="display: block; padding: 10px 0; color: var(--text-main); text-decoration: none;">FAQ</a>
     </div>
 
-    <div class="tools-container">
-        <a href="tools/yt-earning.html" class="tool-card yt-card">
-            <div class="tool-icon"><i class="fa-brands fa-youtube"></i></div>
-            <h3>YouTube Studio</h3>
-            <p>Advanced revenue estimation & niche analysis.</p>
-        </a>
-
-        <a href="instagram.html" class="tool-card insta-card">
-            <div class="tool-icon"><i class="fa-brands fa-instagram"></i></div>
-            <h3>Instagram Stats</h3>
-            <p>Calculate engagement rates and sponsored earnings.</p>
-        </a>
-
-        <a href="facebook.html" class="tool-card fb-card">
-            <div class="tool-icon"><i class="fa-brands fa-facebook"></i></div>
-            <h3>Facebook Ads</h3>
-            <p>Check monetization eligibility for Reels.</p>
-        </a>
-
-        <a href="finance.html" class="tool-card finance-card">
-            <div class="tool-icon"><i class="fa-solid fa-chart-pie"></i></div>
-            <h3>Finance Hub</h3>
-            <p>Plan your wealth. SIP, EMI & Crypto tools.</p>
-        </a>
-    </div>
-
-    <footer style="background: var(--dark-bg); color: white; padding: 60px 5%; margin-top: 100px; text-align: center;">
-        <p>&copy; 2026 CalcGrow Inc. All rights reserved.</p>
+    <footer style="text-align: center; padding: 60px; color: var(--text-light); font-size: 0.8rem;">
+        <p>Trusted by 1.2M+ Creators Worldwide. © 2026 CalcGrow Inc.</p>
     </footer>
 
     <script>
-        // 1. MENU LOGIC
-        function openMenu() {
-            document.getElementById('sidebar').classList.add('active');
-            document.querySelector('.overlay').classList.add('active');
+        // 1. CALCULATOR LOGIC
+        function calcYTRov() {
+            const views = document.getElementById('yt-views').value;
+            const rpm = document.getElementById('yt-niche').value;
+            if(!views) return alert("Please enter views");
+            const res = (views / 1000) * rpm;
+            document.getElementById('yt-res').innerText = "$" + res.toLocaleString();
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
 
-        function closeMenu() {
-            document.getElementById('sidebar').classList.remove('active');
-            document.querySelector('.overlay').classList.remove('active');
+        // 2. JOURNEY LOGIC
+        function startJourney() {
+            const goal = document.getElementById('user-goal').value;
+            if(!goal) return alert("Please enter your goal");
+            document.getElementById('journey-init').style.display = 'none';
+            document.getElementById('journey-dash').style.display = 'block';
+            document.getElementById('display-goal').innerText = "Target: " + goal;
+            showToast("Welcome to the 365-Day Challenge! 🚀");
         }
 
-        // 2. LOGIN POPUP LOGIC
-        function toggleLogin() {
-            const modal = document.getElementById('loginModal');
-            const overlay = document.querySelector('.overlay');
-            
-            if (modal.style.display === 'block') {
-                modal.style.display = 'none';
-                overlay.classList.remove('active');
-            } else {
-                modal.style.display = 'block';
-                overlay.classList.add('active');
-            }
+        function saveProgress() {
+            confetti();
+            showToast("Day 1 Logged. Streak maintained! 🔥");
         }
 
-        // 3. DARK MODE LOGIC (With Memory)
-        function toggleTheme() {
-            const body = document.body;
-            const toggle = document.getElementById('themeToggle');
-            
-            body.classList.toggle('dark-mode');
-            toggle.classList.toggle('toggle-active');
+        // 3. UI LOGIC
+        function openMenu() { document.getElementById('sidebar').classList.add('active'); document.querySelector('.overlay').style.display = 'block'; }
+        function closeMenu() { document.getElementById('sidebar').classList.remove('active'); document.querySelector('.overlay').style.display = 'none'; }
+        
+        function toggleTheme() { document.body.classList.toggle('dark-mode'); }
 
-            // Save preference
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
-            }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3000);
         }
 
-        // Check saved theme on load
-        window.onload = function() {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeToggle').classList.add('toggle-active');
-            }
-        }
+        // Fake Live Data Simulation (Point 7)
+        setInterval(() => {
+            const names = ["Rahul", "Priya", "John", "Chris", "Zoya"];
+            const msgs = ["just updated streak!", "calculated YT revenue", "reached 10-day milestone", "joined the challenge"];
+            const rN = names[Math.floor(Math.random()*names.length)];
+            const rM = msgs[Math.floor(Math.random()*msgs.length)];
+            showToast(`${rN} ${rM}`);
+        }, 15000);
     </script>
-
 </body>
 </html>
